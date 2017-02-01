@@ -1,6 +1,6 @@
 package de.fsmpi.config;
 
-import de.fsmpi.model.user.User;
+import de.fsmpi.model.user.UserAuthority;
 import de.fsmpi.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -38,13 +38,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .headers() //FIXME: use frame options
                 .httpStrictTransportSecurity()
-                .disable();
-        http
-            .authorizeRequests()
-                .antMatchers("/", "/home")
-                .permitAll()
-            .anyRequest()
-                .authenticated()
+                .disable()
+            .and()
+                .authorizeRequests()
+                    .antMatchers("/", "/home", "/user/register").permitAll()
+                    .antMatchers("/options/*").hasAuthority(UserAuthority.EDIT_OPTIONS.getAuthority())
+                    .antMatchers("/print/show/jobs").hasAuthority(UserAuthority.DO_PRINT.getAuthority())
+                    .anyRequest().authenticated()
             .and()
                 .formLogin()
                 .loginPage("/user/login")

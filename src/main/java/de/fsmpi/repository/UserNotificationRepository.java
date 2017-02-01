@@ -3,7 +3,6 @@ package de.fsmpi.repository;
 import de.fsmpi.model.user.Notification;
 import de.fsmpi.model.user.User;
 import de.fsmpi.model.user.UserNotification;
-import de.fsmpi.model.user.UserRole;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

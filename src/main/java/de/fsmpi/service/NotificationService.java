@@ -2,7 +2,7 @@ package de.fsmpi.service;
 
 import de.fsmpi.model.user.Notification;
 import de.fsmpi.model.user.User;
-import de.fsmpi.model.user.UserRole;
+import de.fsmpi.model.user.UserAuthority;
 
 import java.util.Set;
 
@@ -14,15 +14,15 @@ public interface NotificationService {
 
     Set<Notification> getNewNotificationsForUser(User user);
 
-    boolean hasNewNotificationsForRole(UserRole role);
+    boolean hasNewNotificationsForRole(UserAuthority role);
 
-    Set<Notification> getNotificationsForRole(UserRole role);
+    Set<Notification> getNotificationsForRole(UserAuthority role);
 
-    Set<Notification> getNewNotificationsForRole(UserRole role);
+    Set<Notification> getNewNotificationsForRole(UserAuthority role);
 
     Notification createNotification(User user, String message, String target);
 
-    Notification createNotification(UserRole role, String message, String target);
+    Notification createNotification(UserAuthority role, String message, String target);
 
     void mark(Notification notification, boolean read);
 

@@ -11,9 +11,7 @@
                     col-sm-offset-3 col-sm-6
                     col-md-offset-3 col-md-6
                     col-lg-offset-4 col-lg-4">
-            <form name="f" class="imp-form" action="" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}"
-                       th:value="${_csrf.token}" />
+            <form name="f" class="imp-form" th:action="@{/user/register}" method="post">
                 <div class="input-group">
                     <label for="user" class="input-group-addon">
                         <span class="glyphicon glyphicon-user"></span>
@@ -34,23 +32,10 @@
                 </div>
                 <div class="btn-group btn-block">
                     <button type="submit" class="btn btn-primary btn-block">
-                        **login**
+                        **Registrieren**
                     </button>
                 </div>
             </form>
-        </div>
-        <div class="col-xs-12">
-            <hr/>
-        </div>
-        <div class="col-xs-12
-                    col-sm-offset-3 col-sm-6
-                    col-md-offset-3 col-md-6
-                    col-lg-offset-4 col-lg-4">
-            <div class="btn-group btn-block">
-                <a th:href="@{/user/register}" class="btn btn-default btn-block">
-                    **Registrieren**
-                </a>
-            </div>
         </div>
     </div>
 </main>

@@ -11,13 +11,13 @@ public class RoleNotification extends Notification {
 
     @Column
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private UserAuthority role;
 
-    public UserRole getRole() {
+    public UserAuthority getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(UserAuthority role) {
         this.role = role;
     }
 }

@@ -5,13 +5,12 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * Created by Julian on 31.01.2017.
  */
-public enum UserRole implements GrantedAuthority {
-
-    USER, ADMIN;
+public enum UserAuthority implements GrantedAuthority {
+    EDIT_OPTIONS, DO_PRINT, VIEW_DOCUMENTS, PRINT, REQUEST_PRINT;
 
     String role;
 
-    UserRole() {
+    UserAuthority() {
         this.role = this.toString();
     }
 

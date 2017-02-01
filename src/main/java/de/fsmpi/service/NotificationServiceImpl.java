@@ -37,8 +37,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Set<Notification> getNotificationsForUser(User user) {
         Set<Notification> notifications = this.userNotificationRepository.findByUser(user);
-        for (UserRole userRole : user.getUserRoles()) {
-            notifications.addAll(this.getNotificationsForRole(userRole));
+        for (UserAuthority userAuthority : user.getUserAuthorities()) {
+            notifications.addAll(this.getNotificationsForRole(userAuthority));
         }
         return notifications;
     }
@@ -46,24 +46,24 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Set<Notification> getNewNotificationsForUser(User user) {
         Set<Notification> notifications = this.userNotificationRepository.findByUserAndRead(user, false);
-        for (UserRole userRole : user.getUserRoles()) {
-            notifications.addAll(this.getNewNotificationsForRole(userRole));
+        for (UserAuthority userAuthority : user.getUserAuthorities()) {
+            notifications.addAll(this.getNewNotificationsForRole(userAuthority));
         }
         return notifications;
     }
 
     @Override
-    public boolean hasNewNotificationsForRole(UserRole role) {
+    public boolean hasNewNotificationsForRole(UserAuthority role) {
         return this.roleNotificationRepository.findByRole(role).size() > 0;
     }
 
     @Override
-    public Set<Notification> getNotificationsForRole(UserRole role) {
+    public Set<Notification> getNotificationsForRole(UserAuthority role) {
         return this.roleNotificationRepository.findByRole(role);
     }
 
     @Override
-    public Set<Notification> getNewNotificationsForRole(UserRole role) {
+    public Set<Notification> getNewNotificationsForRole(UserAuthority role) {
         return this.roleNotificationRepository.findByRoleAndRead(role, false);
     }
 
@@ -76,7 +76,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Notification createNotification(UserRole role, String message, String target) {
+    public Notification createNotification(UserAuthority role, String message, String target) {
         RoleNotification notification = new RoleNotification();
         notification.setRole(role);
         this.createHelper(notification, message, target);

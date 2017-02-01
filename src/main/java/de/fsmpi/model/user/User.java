@@ -23,13 +23,13 @@ public class User implements UserDetails {
     @Column
     @CollectionTable
     @Enumerated(EnumType.STRING)
-    @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
-    private Set<UserRole> userRoles;
+    @ElementCollection(targetClass = UserAuthority.class, fetch = FetchType.EAGER)
+    private Set<UserAuthority> userAuthorities;
 
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.userRoles;
+        return this.userAuthorities;
     }
 
     @Override
@@ -74,12 +74,12 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
+    public Set<UserAuthority> getUserAuthorities() {
+        return userAuthorities;
     }
 
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
+    public void setUserAuthorities(Set<UserAuthority> userAuthorities) {
+        this.userAuthorities = userAuthorities;
     }
 
     public Boolean getEnabled() {
@@ -92,12 +92,11 @@ public class User implements UserDetails {
 
     @Transient
     public boolean isAdmin() {
-        return this.userRoles != null && this.getUserRoles().contains(UserRole.ADMIN);
+        return this.userAuthorities != null && this.getUserAuthorities().contains(UserAuthority.EDIT_OPTIONS);
     }
 
     @Transient
     public boolean canPrint() {
-        // FIXME: sure only admins can print? --> user role system configurable from backend!
-        return userRoles != null && userRoles.contains(UserRole.ADMIN);
+        return userAuthorities != null && userAuthorities.contains(UserAuthority.DO_PRINT);
     }
 }

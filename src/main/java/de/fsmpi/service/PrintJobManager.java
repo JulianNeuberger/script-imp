@@ -4,7 +4,7 @@ import de.fsmpi.misc.PrintJobUpdater;
 import de.fsmpi.model.document.Document;
 import de.fsmpi.model.print.PrintJob;
 import de.fsmpi.model.print.PrintStatus;
-import de.fsmpi.model.user.UserRole;
+import de.fsmpi.model.user.UserAuthority;
 import de.fsmpi.repository.PrintJobRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class PrintJobManager {
         printJob.setCreatedDate(DateTime.now());
         printJob.setStatus(PrintStatus.APPROVAL);
         notificationService.createNotification(
-                UserRole.ADMIN,
+                UserAuthority.DO_PRINT,
                 "**there is a new print request**",
                 "/print/show/jobs?status=APPROVAL"
         );

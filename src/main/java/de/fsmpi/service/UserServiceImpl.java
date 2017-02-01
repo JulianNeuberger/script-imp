@@ -1,16 +1,20 @@
 package de.fsmpi.service;
 
+import de.fsmpi.model.user.User;
+import de.fsmpi.model.user.UserAuthority;
 import de.fsmpi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Autowired
@@ -27,5 +31,15 @@ public class UserServiceImpl implements UserDetailsService {
                     MessageFormat.format("User with username {0} does not exist.", username)
             );
         }
+    }
+
+    @Override
+    public User register(User user) {
+        // FIXME: encrypt passes
+        if(user.getUserAuthorities() == null) {
+            user.setUserAuthorities(new HashSet<>());
+        }
+        user.getUserAuthorities().add(UserAuthority.VIEW_DOCUMENTS);
+        return this.userRepository.save(user);
     }
 }
