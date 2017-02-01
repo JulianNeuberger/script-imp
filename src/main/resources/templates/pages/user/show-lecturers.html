@@ -1,0 +1,14 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head></head>
+<body>
+<main layout:fragment="content">
+    <ul>
+        <li th:each="lecturer : ${lecturers}">
+            <a th:href="@{/lecturers/edit(id=${lecturer.id})}" th:text="${lecturer.name}"></a>
+        </li>
+    </ul>
+</main>
+</body>
+</html>

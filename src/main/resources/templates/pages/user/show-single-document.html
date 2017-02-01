@@ -1,0 +1,40 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-xs-6">
+            <a th:href="${backLink}">
+                <button class="btn btn-default">
+                    <span class="glyphicon glyphicon-menu-left"></span>
+                    **zurück**
+                </button>
+            </a>
+        </div>
+        <div class="col-xs-6">
+            <form th:action="@{/cart/add/document}"
+                  class="text-right">
+                <input type="hidden" name="id" th:value="${document.id}"/>
+                <input type="hidden" name="backLink" th:value="${backLink}"/>
+                <button type="submit" class="btn btn-default">
+                    **auf druckliste**
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <object class="col-xs-12 imp-pdf-view"
+                th:data="@{/documents/data(id=${document.id})}"
+                type="application/pdf">
+        </object>
+    </div>
+</main>
+</body>
+</html>
+

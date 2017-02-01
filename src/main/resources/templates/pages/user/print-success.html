@@ -1,0 +1,32 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-xs-12" if="${!approval}">
+            **druck erfolgreich**
+        </div>
+        <div class="col-xs-12" if="${approval}">
+            **dein druck muss von einem admin bestätigt werden**
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" th:text="${'**Bitte ' + cost + ' zahlen**'}">
+            Cost
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a th:href="@{/}"
+               class="btn btn-primary btn-block">
+                **Zurück zum Start**
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

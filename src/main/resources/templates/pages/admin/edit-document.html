@@ -1,0 +1,84 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <form th:action="@{/documents/save}"
+                  th:object="${document}"
+                  enctype="multipart/form-data"
+                  method="post"
+                  class="imp-form">
+
+                <input type="hidden" th:field="*{id}"/>
+
+                <div class="input-group">
+                    <label for="doc-name" class="input-group-addon">**Name**</label>
+                    <input type="text" th:field="*{name}" id="doc-name" class="form-control"/>
+                </div>
+
+                <div class="input-group">
+                    <label for="doc-file" class="input-group-addon">**Dokument**</label>
+                    <input type="file" name="file" id="doc-file" class="form-control"/>
+                </div>
+
+                <div class="input-group">
+                    <label for="doc-lecturer" class="input-group-addon">**Dozent**</label>
+                    <select th:field="*{lecturer}"
+                            class="selectpicker form-control"
+                            data-live-search="true"
+                            id="doc-lecturer">
+                        <option th:each="lecturer : ${lecturers}"
+                                th:text="${lecturer.name}"
+                                th:value="${lecturer.id}"></option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="doc-lecture" class="input-group-addon">**Vorlesung**</label>
+                    <select th:field="*{lecture}"
+                            class="selectpicker form-control"
+                            data-live-search="true"
+                            id="doc-lecture">
+                        <option th:each="lecture : ${lectures}"
+                                th:text="${lecture.name}"
+                                th:value="${lecture.id}"></option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="doc-type" class="input-group-addon">**studienform**</label>
+                    <select th:field="*{examType}"
+                            class="selectpicker form-control"
+                            data-live-search="true"
+                            id="doc-type">
+                        <option th:each="examType : ${examTypes}"
+                                th:text="${examType}"
+                                th:value="${examType}"></option>
+                    </select>
+
+                    <label for="doc-form" class="input-group-addon">**art der klausur**</label>
+                    <select th:field="*{examType}"
+                            class="selectpicker form-control"
+                            data-live-search="true"
+                            id="doc-form">
+                        <option th:each="examType : ${examTypes}"
+                                th:text="${examType}"
+                                th:value="${examType}"></option>
+                    </select>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">###Save</button>
+                    <button type="submit" name="next" class="btn btn-default">###Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

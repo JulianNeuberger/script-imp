@@ -1,0 +1,25 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head></head>
+<body>
+<main layout:frament="content">
+    <form th:action="@{/lectures/save}" method="post" th:object="${lecture}">
+        <input type="hidden" th:field="*{id}"/>
+        <input type="text" th:field="*{name}" placeholder="name"/>
+        <select title="###Field" th:field="*{field}">
+            <option th:each="field : ${fields}"
+                    th:value="${field}"
+                    th:text="${field.name}"></option>
+        </select>
+        <select multiple="multiple" th:field="*{lecturers}">
+            <option th:each="lecturer : ${lecturers}"
+                    th:value="${lecturer.id}"
+                    th:text="${lecturer.name}"></option>
+        </select>
+
+        <button type="submit">###Save</button>
+    </form>
+</main>
+</body>
+</html>

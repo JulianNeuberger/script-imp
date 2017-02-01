@@ -1,0 +1,41 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head></head>
+<body>
+<main layout:fragment="content">
+    <form th:object="${option}"
+          th:action="@{/options/save}"
+          method="post"
+          class="imp-form">
+        <input type="hidden" name="type" th:value="${option.getClass().getName()}"/>
+
+        <div class="input-group">
+            <label for="opt-name" class="form-control">**name**</label>
+            <input type="text" th:field="*{name}" id="opt-name" />
+        </div>
+
+        <div class="input-group">
+            <label for="opt-value" class="form-controll">**value**</label>
+            <input type="text"
+                   id="opt-value"
+                   th:field="*{value}"
+                   th:if="*{!hasPossibleValues()}" />
+            <select id="opt-value"
+                    class="form-control"
+                    th:field="*{value}"
+                    th:if="*{hasPossibleValues()}">
+                <option th:each="possibleValue : *{possibleValues}"
+                        th:value="${possibleValue}"
+                        th:text="${possibleValue}"></option>
+            </select>
+        </div>
+
+        <div class="button-group">
+            <button class="btn btn-block btn-primary">**save**</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

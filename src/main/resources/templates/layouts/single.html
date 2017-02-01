@@ -1,0 +1,14 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+    <head th:replace="layouts/components :: head">
+    </head>
+    <body>
+        <nav th:replace="layouts/components :: navigation">
+        </nav>
+        <main layout:fragment="content">
+        </main>
+        <footer th:replace="layouts/components :: footer">
+        </footer>
+    </body>
+</html>

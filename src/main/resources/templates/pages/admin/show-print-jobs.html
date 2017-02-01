@@ -1,0 +1,87 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+    <div class="row">
+        <form action="" class="imp-form">
+            <div class="col-xs-3">
+                <div class="input-group">
+                    <label for="page" class="input-group-addon">**page**</label>
+                    <input id="page" name="page" placeholder="**page**"
+                           class="form-control" th:value="${page}"/>
+                </div>
+            </div>
+
+            <div class="col-xs-3">
+                <div class="input-group">
+                    <label for="size" class="input-group-addon">**size**</label>
+                    <input id="size" name="size" placeholder="**jobs per page**"
+                           class="form-control" th:value="${size}"/>
+                </div>
+            </div>
+
+            <div class="col-xs-4">
+                <div class="input-group">
+                    <label for="status" class="input-group-addon">**status**</label>
+                    <select id="status" name="status" class="selectpicker">
+                        <option th:value="${null}"
+                                th:selected="${status eq null}">
+                            **alle**
+                        </option>
+                        <option th:each="curStatus : ${printStates}"
+                                th:value="${curStatus}"
+                                th:text="${curStatus}"
+                                th:selected="${curStatus.equals(status)}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-xs-2">
+                <div class="input-group">
+                    <button class="btn btn-default btn-block">**search**</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table table-striped">
+        <thead><tr>
+            <th>**document name**</th>
+            <th>**date**</th>
+            <th>**status**</th>
+            <th>**reprint**</th>
+        </tr></thead>
+        <tbody>
+            <tr th:each="job : ${printJobsPage.content}">
+                <td th:text="${job.documents?.size()}">**No documents**</td>
+                <td th:text="${job.createdDate}">**No document date**</td>
+                <td th:text="${job.status}">**no status**</td>
+                <td th:text="${pricingService.getPriceForPrintJob(job)}"></td>
+                <td>
+                    <form th:if="${!job.needsApproval()}"
+                          th:action="@{/print/job}">
+                        <input type="hidden" name="id" th:value="${job.id}"/>
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-repeat"></span>
+                        </button>
+                    </form>
+                    <form th:if="${job.needsApproval()}"
+                          th:action="@{/print/job/approve}">
+                        <input type="hidden" name="id" th:value="${job.id}"/>
+                        <button name="approve" type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                        <button name="deny" type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

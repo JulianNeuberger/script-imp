@@ -1,0 +1,32 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-xs-12" >
+            <table class="table table-striped">
+                <tbody>
+                <tr th:each="notification : ${allNotifications}">
+                    <td>
+                        <a th:href="@{/notifications/toggle(id=${notification.id})}" class="btn btn-default">
+                            <span th:class="${'glyphicon ' + (notification.read ? 'glyphicon-eye-close' : 'glyphicon-eye-open')}">
+                            </span>
+                            <span th:text="${notification.read ? '**als ungelesen markieren**' : '**als gelesen markieren**'}"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="@{/notifications/read(id=${notification.id})}"
+                           th:text="${notification.message}">**No message for notification**</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

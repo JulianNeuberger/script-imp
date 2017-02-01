@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+    <main layout:fragment="content" class="container">
+        <div class="row">
+            <form method="get" th:action="@{/print/cart}">
+                <button class="btn btn-primary">
+                    <span class="glyphicon glyphicon-print"></span>
+                    **Drucken**
+                </button>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>**name**</th>
+                        <th>**vorlesung**</th>
+                        <th>**dozent**</th>
+                        <th>**entfernen**</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="document : ${documents}">
+                        <td th:text="${document.name}"></td>
+                        <td th:text="${document.lecture?.name}">-</td>
+                        <td th:text="${document.lecturer?.name}">-</td>
+                        <td>
+                            <form th:action="@{/cart/remove/document}">
+                                <input type="hidden" name="id" th:value="${document.id}"/>
+                                <button type="submit" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <form method="get" th:action="@{/print/cart}">
+                <button class="btn btn-primary">
+                    <span class="glyphicon glyphicon-print"></span>
+                    **Drucken**
+                </button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

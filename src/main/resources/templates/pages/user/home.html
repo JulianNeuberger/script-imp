@@ -1,0 +1,19 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Willkommen beim Skriptensystem der FSMPI</h2>
+            <ul>
+                <li><a th:href="@{/documents/show}">Search for scripts</a></li>
+            </ul>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head></head>
+<body>
+<main layout:fragment="content">
+    <ul>
+        <li th:each="option : ${options}">
+            <a th:href="@{/options/edit(name=${option.name})}"
+               th:text="${option.name}"></a>
+        </li>
+    </ul>
+
+    <form th:action="@{/options/add}" class="imp-form">
+        <div class="input-group">
+            <label for="opt-type" class="input-group-addon">**type**</label>
+            <select name="optionClassName"
+                    id="opt-type"
+                    data-live-search="true"
+                    class="selectpicker form-control">
+                <option th:each="val : ${optionClasses}"
+                        th:text="${val}"
+                        th:value="${val}"></option>
+            </select>
+            <div class="input-group-btn">
+                <button type="submit"
+                        class="btn btn-primary">
+                    **create option**
+                </button>
+            </div>
+        </div>
+    </form>
+</main>
+</body>
+</html>
