@@ -2,9 +2,9 @@ package de.fsmpi.controller;
 
 import de.fsmpi.misc.Cart;
 import de.fsmpi.repository.DocumentRepository;
+import de.fsmpi.service.CartService;
 import de.fsmpi.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,31 +12,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by Julian on 27.01.2017.
- */
 @Controller
 @RequestMapping("/cart")
-@Scope("request")
 public class CartController extends BaseController {
     private final DocumentRepository documentRepository;
-    private final Cart cart;
 
     @Autowired
     public CartController(DocumentRepository documentRepository,
-                          NotificationService notificationService,
-                          Cart cart) {
-        super(notificationService);
+						  CartService cartService,
+                          NotificationService notificationService) {
+        super(notificationService, cartService);
         this.documentRepository = documentRepository;
-        this.cart = cart;
     }
 
     @RequestMapping("/add/document")
-    public String add(Model model,
-                      HttpServletRequest request,
+    public String add(HttpServletRequest request,
                       @RequestParam("id") Long documentId,
                       @RequestParam(value = "backLink", required = false) String backLink) {
-        cart.addDocumentToCart(this.documentRepository.findOne(documentId));
+		Cart cart = getCartOfUserOrNull();
+		if(cart != null) {
+			cartService.addItemToCart(cart, this.documentRepository.findOne(documentId));
+		}
         String referrer;
         if(backLink == null || backLink.trim().length() == 0) {
             referrer = request.getHeader("referer");
@@ -48,8 +44,10 @@ public class CartController extends BaseController {
     }
 
     @RequestMapping("/remove/document")
-    public String remove(Model model, HttpServletRequest request, @RequestParam("id") Long documentId) {
-        cart.removeDocumentFromCart(this.documentRepository.findOne(documentId));
+    public String remove(HttpServletRequest request,
+						 @RequestParam("id") Long documentId) {
+		Cart cart = getCartOfUserOrNull();
+		cartService.removeItemFromCart(cart, this.documentRepository.findOne(documentId));
         String referrer = request.getHeader("referer");
 
         return "redirect:" + referrer;
@@ -57,13 +55,16 @@ public class CartController extends BaseController {
 
     @RequestMapping("/clear")
     public String clear() {
-        cart.clear();
-
-        return "/";
+        Cart cart = getCartOfUserOrNull();
+        if(cart != null) {
+        	cart = this.cartService.clearCart(cart);
+		}
+        return "/"; // FIXME: return to previous site
     }
 
     @RequestMapping("/show")
     public String show(Model model) {
+    	Cart cart = getCartOfUserOrNull();
         model.addAttribute("documents", cart.getDocuments());
         return "/pages/user/show-cart";
     }

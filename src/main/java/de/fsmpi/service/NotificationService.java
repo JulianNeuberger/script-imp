@@ -14,7 +14,11 @@ public interface NotificationService {
 
     Set<Notification> getNewNotificationsForUser(User user);
 
-    boolean hasNewNotificationsForRole(UserAuthority role);
+	Set<Notification> getOldNotificationsForUser(User user);
+
+	Set<Notification> getOldNotificationsForAuthority(UserAuthority userAuthority);
+
+	boolean hasNewNotificationsForRole(UserAuthority role);
 
     Set<Notification> getNotificationsForRole(UserAuthority role);
 

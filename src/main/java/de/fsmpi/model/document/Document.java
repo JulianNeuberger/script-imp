@@ -176,7 +176,7 @@ public class Document {
                 ", examType=" + examType +
                 ", examForm=" + examForm +
                 ", semester='" + semester + '\'' +
-                ", name='" + name + '\'' +
+                ", key='" + name + '\'' +
                 '}';
     }
 }

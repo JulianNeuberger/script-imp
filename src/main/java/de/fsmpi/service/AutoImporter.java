@@ -66,7 +66,7 @@ public class AutoImporter {
                 continue;
             }
             for (File examTypeFile : examTypes) {
-                // the exam type denoted by folder name (eg. German Diplom, exam, questionnaire...)
+                // the exam type denoted by folder key (eg. German Diplom, exam, questionnaire...)
                 ExamType examType = this.getExamTypeOrCreate(examTypeFile.getName());
 
                 File[] lectureFiles = examTypeFile.listFiles();
@@ -204,7 +204,7 @@ public class AutoImporter {
         //noinspection StringBufferReplaceableByString
         StringBuilder newFilePath = new StringBuilder("pdf")
                 .append('/')
-                .append(document.getExamForm().name)
+                .append(document.getExamForm().key)
                 .append('/')
                 .append(document.getLecture().getName())
                 .append('/')

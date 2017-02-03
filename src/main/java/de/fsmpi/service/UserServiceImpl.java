@@ -4,22 +4,23 @@ import de.fsmpi.model.user.User;
 import de.fsmpi.model.user.UserAuthority;
 import de.fsmpi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final NotificationService notificationService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+						   NotificationService notificationService) {
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -40,6 +41,24 @@ public class UserServiceImpl implements UserService {
             user.setUserAuthorities(new HashSet<>());
         }
         user.getUserAuthorities().add(UserAuthority.VIEW_DOCUMENTS);
-        return this.userRepository.save(user);
-    }
+        user = this.userRepository.save(user);
+		notificationService.createNotification(user, "notification.user_profile", "/user/show/self");
+		return user;
+	}
+
+    @Override
+	public User updateProfile(User user, String password, String firstName, String lastName, String email) {
+    	if(password.length() > 0) {
+			user.setPassword(password);
+    	}
+    	if(firstName.length() > 0) {
+    		user.setFirstName(firstName);
+		}
+		if(lastName.length() > 0) {
+    		user.setLastName(lastName);
+		}
+		if(email.length() > 0) {
+		}
+		return userRepository.save(user);
+	}
 }

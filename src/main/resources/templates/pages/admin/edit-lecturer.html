@@ -7,7 +7,7 @@
 <main layout:frament="content">
     <form th:action="@{/lecturers/save}" method="post" th:object="${lecturer}">
         <input type="hidden" th:field="*{id}"/>
-        <input type="text" th:field="*{name}" placeholder="name"/>
+        <input type="text" th:field="*{name}" placeholder="**name**"/>
         <select multiple="multiple" th:field="*{lectures}">
             <option th:each="lecture : ${lectures}"
                     th:text="${lecture.name}"

@@ -2,6 +2,7 @@ package de.fsmpi.controller;
 
 import de.fsmpi.model.option.Option;
 import de.fsmpi.repository.OptionRepository;
+import de.fsmpi.service.CartService;
 import de.fsmpi.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +22,9 @@ public class OptionsController extends BaseController {
 
     @Autowired
     public OptionsController(OptionRepository optionRepository,
-                             NotificationService notificationService) {
-        super(notificationService);
+                             NotificationService notificationService,
+                             CartService cartService) {
+        super(notificationService, cartService);
         this.optionRepository = optionRepository;
     }
 

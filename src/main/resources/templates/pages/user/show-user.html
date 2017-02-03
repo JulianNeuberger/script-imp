@@ -1,0 +1,62 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+    <div class="row imp-spacing-bottom">
+        <div class="col-xs-12
+                    col-sm-8 col-sm-offset-2
+					col-md-6 col-md-offset-3
+					col-lg-4 col-lg-offset-4">
+			<h3 th:text="#{user.edit_profile}"></h3>
+			<form name="f"
+				  class="imp-form"
+				  method="post"
+				  th:action="@{/user/save/self}">
+				<hr/>
+				<div class="text-muted imp-spacing-bottom" th:text="#{user.cannot_change_name}"></div>
+				<input type="text"
+					   title="username"
+					   th:value="${user.username}"
+					   class="form-control imp-spacing-bottom"
+					   disabled="disabled"
+					   name="username"/>
+
+				<hr/>
+				<div class="text-muted imp-spacing-bottom" th:text="#{user.change_password_notice}"></div>
+				<input th:placeholder="#{new_password}"
+					   type="password"
+					   class="form-control imp-spacing-bottom"
+					   name="password"/>
+				<input th:placeholder="#{repeat_password}"
+					   type="password"
+					   class="form-control imp-spacing-bottom"
+					   name="repeatPassword"/>
+
+				<hr/>
+				<div class="text-muted imp-spacing-bottom" th:text="#{user.tell_your_name}"></div>
+				<input th:placeholder="#{user.first_name}"
+					   th:value="${user.firstName}"
+					   type="text"
+					   class="form-control imp-spacing-bottom"
+					   name="firstName"/>
+				<input th:placeholder="#{user.last_name}"
+					   th:value="${user.lastName}"
+					   type="text"
+					   class="form-control imp-spacing-bottom"
+					   name="lastName"/>
+
+				<div>
+					<button type="submit"
+							class="btn btn-primary"
+							th:text="#{save}"></button>
+				</div>
+			</form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

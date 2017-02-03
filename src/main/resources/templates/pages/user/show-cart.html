@@ -5,24 +5,26 @@
 <head>
 </head>
 <body>
-    <main layout:fragment="content" class="container">
-        <div class="row">
+    <main layout:fragment="content"
+		  class="container"
+		  th:with="hasDocuments = ${documents ne null and documents.size() > 0}">
+        <div class="row" th:if="${hasDocuments}">
             <form method="get" th:action="@{/print/cart}">
-                <button class="btn btn-primary">
-                    <span class="glyphicon glyphicon-print"></span>
-                    **Drucken**
-                </button>
+				<button class="btn btn-primary" type="submit">
+					<span class="glyphicon glyphicon-print"></span>
+					<span th:text="#{print}"></span>
+				</button>
             </form>
         </div>
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-12" th:if="${hasDocuments}">
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>**name**</th>
-                        <th>**vorlesung**</th>
-                        <th>**dozent**</th>
-                        <th>**entfernen**</th>
+                        <th th:text="#{document.name_short}"></th>
+                        <th th:text="#{document.lecture_short}"></th>
+                        <th th:text="#{document.lecturer_short}"></th>
+                        <th th:text="#{possible_actions_short}"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -42,12 +44,24 @@
                     </tbody>
                 </table>
             </div>
+			<div class="col-xs-12
+						col-sm-10 col-sm-offset-1
+						col-md-8 col-md-offset-2
+						col-lg-6 col-lg-offset-3"
+				 th:if="${not hasDocuments}">
+				<div class="text-center lead">
+					<span class="glyphicon glyphicon-ban-circle"></span>
+				</div>
+				<div class="text-center">
+					<span th:text="#{cart.empty_long}"></span>
+				</div>
+			</div>
         </div>
-        <div class="row">
+        <div class="row" th:if="${hasDocuments}">
             <form method="get" th:action="@{/print/cart}">
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-print"></span>
-                    **Drucken**
+                    <span th:text="#{print}"></span>
                 </button>
             </form>
         </div>

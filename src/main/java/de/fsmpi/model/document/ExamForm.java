@@ -1,14 +1,11 @@
 package de.fsmpi.model.document;
 
-/**
- * Created by Julian on 27.01.2017.
- */
 public enum ExamForm {
-    ORAL("mündlich"), WRITTEN("schriftlich");
+    ORAL("document.form.oral"), WRITTEN("document.form.written");
 
-    public final String name;
+    public final String key;
 
-    private ExamForm(String name) {
-        this.name = name;
+    ExamForm(String key) {
+        this.key = key;
     }
 }

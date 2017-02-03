@@ -4,6 +4,7 @@ import de.fsmpi.model.document.Field;
 import de.fsmpi.model.document.Lecture;
 import de.fsmpi.repository.LectureRepository;
 import de.fsmpi.repository.LecturerRepository;
+import de.fsmpi.service.CartService;
 import de.fsmpi.service.LectureService;
 import de.fsmpi.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,9 @@ public class LectureController extends BaseController {
     public LectureController(LectureRepository lectureRepository,
                              LecturerRepository lecturerRepository,
                              NotificationService notificationService,
-                             LectureService lectureService) {
-        super(notificationService);
+                             LectureService lectureService,
+                             CartService cartService) {
+        super(notificationService, cartService);
         this.lectureRepository = lectureRepository;
         this.lecturerRepository = lecturerRepository;
         this.lectureService = lectureService;

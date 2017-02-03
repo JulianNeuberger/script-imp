@@ -3,15 +3,16 @@ package de.fsmpi.controller;
 import de.fsmpi.model.document.Lecturer;
 import de.fsmpi.repository.LectureRepository;
 import de.fsmpi.repository.LecturerRepository;
+import de.fsmpi.service.CartService;
 import de.fsmpi.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * Created by Julian on 07.12.2016.
- */
 @Controller
 @RequestMapping("/lecturers")
 public class LecturerController extends BaseController {
@@ -22,8 +23,9 @@ public class LecturerController extends BaseController {
     @Autowired
     public LecturerController(LecturerRepository lecturerRepository,
                               LectureRepository lectureRepository,
-                              NotificationService notificationService) {
-        super(notificationService);
+                              NotificationService notificationService,
+                              CartService cartService) {
+        super(notificationService, cartService);
         this.lecturerRepository = lecturerRepository;
         this.lectureRepository = lectureRepository;
     }

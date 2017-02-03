@@ -6,8 +6,8 @@ import de.fsmpi.repository.ExamTypeRepository;
 import de.fsmpi.repository.LectureRepository;
 import de.fsmpi.repository.LecturerRepository;
 import de.fsmpi.service.AutoImporter;
+import de.fsmpi.service.CartService;
 import de.fsmpi.service.DocumentService;
-import de.fsmpi.service.LecturerService;
 import de.fsmpi.service.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,6 @@ public class DocumentController extends BaseController {
     private final LectureRepository lectureRepository;
 
     private final AutoImporter autoImporter;
-    private final LecturerService lecturerService;
     private final DocumentService documentService;
 
     @Autowired
@@ -45,15 +44,14 @@ public class DocumentController extends BaseController {
                               LectureRepository lectureRepository,
                               ExamTypeRepository examTypeRepository,
                               NotificationService notificationService,
-                              LecturerService lecturerService,
+                              CartService cartService,
                               DocumentService documentService,
                               AutoImporter autoImporter) {
-        super(notificationService);
+        super(notificationService, cartService);
         this.documentRepository = documentRepository;
         this.lecturerRepository = lecturerRepository;
         this.lectureRepository = lectureRepository;
         this.examTypeRepository = examTypeRepository;
-        this.lecturerService = lecturerService;
         this.documentService = documentService;
         this.autoImporter = autoImporter;
     }

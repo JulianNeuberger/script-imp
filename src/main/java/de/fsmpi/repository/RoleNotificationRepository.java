@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Repository
 public interface RoleNotificationRepository extends CrudRepository<RoleNotification, Long> {
-    Set<Notification> findByRole(UserAuthority role);
+    Set<Notification> findByUserAuthority(UserAuthority userAuthority);
 
-    Set<Notification> findByRoleAndRead(UserAuthority role, Boolean read);
+    Set<Notification> findByUserAuthorityAndRead(UserAuthority userAuthority, Boolean read);
 }

@@ -33,8 +33,9 @@
                            class="form-control"/>
                 </div>
                 <div class="btn-group btn-block">
-                    <button type="submit" class="btn btn-primary btn-block">
-                        **login**
+                    <button th:text="#{login}"
+                            type="submit"
+                            class="btn btn-primary btn-block">
                     </button>
                 </div>
             </form>
@@ -47,8 +48,9 @@
                     col-md-offset-3 col-md-6
                     col-lg-offset-4 col-lg-4">
             <div class="btn-group btn-block">
-                <a th:href="@{/user/register}" class="btn btn-default btn-block">
-                    **Registrieren**
+                <a th:href="@{/user/register}"
+                   th:text="#{register}"
+                   class="btn btn-default btn-block">
                 </a>
             </div>
         </div>

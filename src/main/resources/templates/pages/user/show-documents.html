@@ -14,9 +14,13 @@
             <div class="row">
                 <div class="col-xs-12 col-lg-5">
                     <div class="input-group">
-                        <label for="lecturer" class="input-group-addon">**dozent**</label>
+                        <label for="lecturer"
+                               class="input-group-addon"
+                               th:text="#{document.lecturer_short}"></label>
                         <select id="lecturer" name="lecturerId" class="form-control selectpicker" data-live-search="true">
-                            <option th:selected="${lecturerId == null}" value="">**alle**</option>
+                            <option th:selected="${lecturerId == null}"
+                                    th:text="#{all}"
+                                    value=""></option>
                             <option th:each="cur : ${lecturers}"
                                     th:value="${cur.id}"
                                     th:text="${cur.name}"
@@ -27,9 +31,13 @@
 
                 <div class="col-xs-12 col-lg-5">
                     <div class="input-group">
-                        <label for="lecture" class="input-group-addon">**vorlesung**</label>
+                        <label for="lecture"
+                               class="input-group-addon"
+                               th:text="#{document.lecture_short}"></label>
                         <select id="lecture" name="lectureId" class="form-control selectpicker" data-live-search="true">
-                            <option th:selected="${lectureId == null}" value="">**alle**</option>
+                            <option th:selected="${lectureId == null}"
+                                    th:text="#{all}"
+                                    value=""></option>
                             <option th:each="cur : ${lectures}"
                                     th:value="${cur.id}"
                                     th:text="${cur.name}"
@@ -40,12 +48,16 @@
 
                 <div class="col-xs-12 col-lg-2">
                     <div class="input-group">
-                        <label for="examForm" class="input-group-addon">**art**</label>
+                        <label for="examForm"
+							   class="input-group-addon"
+							   th:text="#{document.exam_form_short}"></label>
                         <select id="examForm" name="examForm" class="form-control selectpicker">
-                            <option value="" th:selected="${examForm == null}">**alle**</option>
+                            <option value=""
+                                    th:text="#{all}"
+                                    th:selected="${examForm == null}"></option>
                             <option th:each="cur : ${examForms}"
                                     th:value="${cur}"
-                                    th:text="${cur}"
+									th:text="#{${cur.key}}"
                                     th:selected="${cur.equals(examForm)}"></option>
                         </select>
                     </div>
@@ -55,7 +67,9 @@
             <div class="row">
                 <div class="col-xs-12 col-lg-10">
                     <div class="input-group">
-                        <label class="input-group-addon" for="doc-name">**stichwort**</label>
+                        <label class="input-group-addon"
+                               th:text="#{document.keyword}"
+                               for="doc-name"></label>
                         <input type="text"
                                name="keyword"
                                th:value="${keyword}"
@@ -65,34 +79,43 @@
                 </div>
                 <div class="col-xs-12 col-lg-2">
                     <div class="btn-group btn-block">
-                        <button class="btn btn-primary btn-block">**search**</button>
+                        <button class="btn btn-primary btn-block">
+							<span class="glyphicon glyphicon-search"></span>
+							<span class="hidden-xs hidden-sm"
+								  th:text="#{search}"></span>
+						</button>
                     </div>
                 </div>
             </div>
         </form>
 
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12 table-responsive">
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>**name**</th>
-                    <th>**vorlesung**</th>
-                    <th>**dozent**</th>
-                    <th>**auf druckliste**</th>
+                    <th th:text="#{document.lecture_short}"></th>
+                    <th th:text="#{document.lecturer_short}"></th>
+                    <th th:text="#{document.term_short}"></th>
+                    <th th:text="#{document.exam_form_short}"></th>
+                    <th th:text="#{document.exam_type_short}"></th>
+                    <th th:text="#{possible_actions_short}"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="document : ${documents}">
-                    <td th:text="${document.name}"></td>
-                    <td th:text="${document.lecture?.name}">-</td>
-                    <td th:text="${document.lecturer?.name}">-</td>
+                    <td th:text="${document.lecture?.name}?:#{document.not_applicable}"></td>
+                    <td th:text="${document.lecturer?.name}?:#{document.not_applicable}"></td>
+                    <td th:text="${document.semester}?:#{document.not_applicable}"></td>
+                    <td th:text="#{${document.examForm.key}}?:#{document.not_applicable}"></td>
+                    <td th:text="${document.examType.name}?:#{document.not_applicable}"></td>
                     <td>
                         <form th:action="@{/cart/add/document}" class="form-inline">
                             <input type="hidden" name="id" th:value="${document.id}"/>
                             <button type="submit" class="btn btn-default">
-                                **auf druckliste**
-                                <span class="glyphicon glyphicon-shopping-cart"></span>
+								<span class="glyphicon glyphicon-shopping-cart"></span>
+								<span th:text="#{print.add_to_cart}"
+									  class="hidden-xs hidden-sm"></span>
                             </button>
                         </form>
                         <form th:action="@{/documents/show}" class="form-inline">
@@ -100,9 +123,12 @@
                                    th:value="${pageLink}"/>
                             <input type="hidden" name="id"
                                    th:value="${document.id}"/>
-                            <button type="submit" class="btn btn-default">
-                                **ansehen**
-                                <span class="glyphicon glyphicon-eye-open"></span>
+                            <button th:if="${user.canViewPDFs()}"
+									type="submit"
+                                    class="btn btn-default">
+								<span class="glyphicon glyphicon-eye-open"></span>
+								<span th:text="#{document.view_short}"
+									  class="hidden-xs hidden-sm"></span>
                             </button>
                         </form>
                     </td>
@@ -135,7 +161,6 @@
                     <span th:text="${pageNumber + 1}"></span>
                 </button>
                 <button th:if="${page lt totalPages - 1}"
-                        name="page"
                         class="btn btn-default"
                         th:value="${page + 1}">
                     <span class="glyphicon glyphicon-chevron-right"></span>

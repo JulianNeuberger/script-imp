@@ -53,18 +53,32 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public boolean hasNewNotificationsForRole(UserAuthority role) {
-        return this.roleNotificationRepository.findByRole(role).size() > 0;
+    public Set<Notification> getOldNotificationsForUser(User user) {
+        Set<Notification> notifications = this.userNotificationRepository.findByUserAndRead(user, true);
+        for (UserAuthority userAuthority : user.getUserAuthorities()) {
+            notifications.addAll(this.getOldNotificationsForAuthority(userAuthority));
+        }
+        return notifications;
     }
 
     @Override
-    public Set<Notification> getNotificationsForRole(UserAuthority role) {
-        return this.roleNotificationRepository.findByRole(role);
+    public Set<Notification> getOldNotificationsForAuthority(UserAuthority userAuthority) {
+        return this.roleNotificationRepository.findByUserAuthorityAndRead(userAuthority, true);
     }
 
     @Override
-    public Set<Notification> getNewNotificationsForRole(UserAuthority role) {
-        return this.roleNotificationRepository.findByRoleAndRead(role, false);
+    public boolean hasNewNotificationsForRole(UserAuthority authority) {
+        return this.roleNotificationRepository.findByUserAuthority(authority).size() > 0;
+    }
+
+    @Override
+    public Set<Notification> getNotificationsForRole(UserAuthority userAuthority) {
+        return this.roleNotificationRepository.findByUserAuthority(userAuthority);
+    }
+
+    @Override
+    public Set<Notification> getNewNotificationsForRole(UserAuthority userAuthority) {
+        return this.roleNotificationRepository.findByUserAuthorityAndRead(userAuthority, false);
     }
 
     @Override
@@ -78,7 +92,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Notification createNotification(UserAuthority role, String message, String target) {
         RoleNotification notification = new RoleNotification();
-        notification.setRole(role);
+        notification.setUserAuthority(role);
         this.createHelper(notification, message, target);
         return this.notificationRepository.save(notification);
     }

@@ -54,7 +54,7 @@ public class Lecturer {
     @Override
     public String toString() {
         return "Lecturer{" +
-                "name='" + name + '\'' +
+                "key='" + name + '\'' +
                 '}';
     }
 }

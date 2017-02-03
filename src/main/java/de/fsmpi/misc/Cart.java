@@ -1,21 +1,24 @@
 package de.fsmpi.misc;
 
 import de.fsmpi.model.document.Document;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Julian on 27.01.2017.
- */
-@Component
-@Scope("session")
+@Entity
+@Table
 public class Cart {
 
-    private List<Document> documents = new ArrayList<>();
+	@Id
+	@Column
+	@GeneratedValue
+	private Long id;
+
+	@JoinTable
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Document> documents = new ArrayList<>();
 
     public List<Document> getDocuments() {
         return Collections.unmodifiableList(documents);
@@ -25,15 +28,31 @@ public class Cart {
         this.documents = documents;
     }
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Transient
     public void addDocumentToCart(Document document) {
         this.documents.add(document);
     }
 
+    @Transient
     public void removeDocumentFromCart(Document document) {
         this.documents.remove(document);
     }
 
+    @Transient
     public void clear() {
         this.documents = new ArrayList<>();
+    }
+
+    @Transient
+    public int getItemCount() {
+        return this.documents.size();
     }
 }

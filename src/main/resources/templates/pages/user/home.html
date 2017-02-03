@@ -6,14 +6,54 @@
 </head>
 <body>
 <main layout:fragment="content" class="container">
-    <div class="row">
-        <div class="col-xs-12">
-            <h2>Willkommen beim Skriptensystem der FSMPI</h2>
-            <ul>
-                <li><a th:href="@{/documents/show}">Search for scripts</a></li>
-            </ul>
+    <div class="row imp-spacing-bottom">
+        <div class="col-xs-12
+                    col-sm-8 col-sm-offset-2
+					col-md-6 col-md-offset-3
+					col-lg-4 col-lg-offset-4">
+			<div class="text-center">
+				<h2 th:text="#{home.welcome(${(user ne null) ? user.fullName : ''})}">Welcome</h2>
+				<div th:text="#{home.first_steps}"
+					 th:if="${user eq null}"></div>
+			</div>
         </div>
     </div>
+	<div class="row" th:if="${user eq null}">
+		<div class="col-xs-12
+					col-sm-4 col-sm-offset-2
+					col-md-3 col-md-offset-3
+					col-lg-2 col-lg-offset-4">
+			<a th:href="@{/user/login}"
+			   th:text="#{login}"
+			   class="btn btn-primary btn-block"></a>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
+			<a th:href="@{/user/register}"
+			   th:text="#{register}"
+			   class="btn btn-default btn-block"></a>
+		</div>
+	</div>
+	<div class="row" th:if="${user ne null}">
+		<div th:text="${cartItemCount eq 0} ? #{home.cart_empty} : #{home.cart_not_empty}"
+			 class="col-xs-12
+                    col-sm-8 col-sm-offset-2
+					col-md-6 col-md-offset-3
+					col-lg-4 col-lg-offset-4
+					text-center imp-spacing-bottom"></div>
+		<div class="col-xs-12
+                    col-sm-8 col-sm-offset-2
+					col-md-6 col-md-offset-3
+					col-lg-4 col-lg-offset-4
+					text-center">
+			<a th:href="@{/documents/show}"
+			   th:text="#{home.find_scripts}"
+			   class="btn btn-primary"></a>
+			<a th:href="@{/cart/show}"
+			   th:if="${cartItemCount != 0}"
+			   th:text="#{home.show_cart}"
+			   class="btn btn-default"></a>
+		</div>
+	</div>
 </main>
 </body>
 </html>

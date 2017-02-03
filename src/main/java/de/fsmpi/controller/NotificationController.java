@@ -2,12 +2,15 @@ package de.fsmpi.controller;
 
 import de.fsmpi.model.user.Notification;
 import de.fsmpi.repository.NotificationRepository;
+import de.fsmpi.service.CartService;
 import de.fsmpi.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Set;
 
 /**
  * Created by Julian on 01.02.2017.
@@ -19,14 +22,17 @@ public class NotificationController extends BaseController {
 
     @Autowired
     public NotificationController(NotificationService notificationService,
-                                  NotificationRepository notificationRepository) {
-        super(notificationService);
+                                  NotificationRepository notificationRepository,
+                                  CartService cartService) {
+        super(notificationService, cartService);
         this.notificationRepository = notificationRepository;
     }
 
     @RequestMapping(path = "/show")
     public String show(Model model) {
-        model.addAttribute("allNotifications", this.notificationService.getNotificationsForUser(getCurrentUserOrNull()));
+		Set<Notification> notifications = this.notificationService.getOldNotificationsForUser(getCurrentUserOrNull());
+		model.addAttribute("oldNotifications", notifications);
+		model.addAttribute("hasOldNotifications", notifications.size() > 0);
         return "/pages/user/show-notifications";
     }
 

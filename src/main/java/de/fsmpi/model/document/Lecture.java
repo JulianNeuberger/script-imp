@@ -64,7 +64,7 @@ public class Lecture {
     @Override
     public String toString() {
         return "Lecture{" +
-                "name='" + name + '\'' +
+                "key='" + name + '\'' +
                 ", field=" + field +
                 '}';
     }

@@ -9,18 +9,53 @@
     <div class="row">
         <div class="col-xs-12" >
             <table class="table table-striped">
+				<thead>
+					<tr>
+						<th th:text="#{notification.new_notification}"></th>
+						<th></th>
+					</tr>
+				</thead>
                 <tbody>
-                <tr th:each="notification : ${allNotifications}">
-                    <td>
+                <tr th:if="${!hasNewNotifications}">
+					<td><span class="glyphicon glyphicon-heart"></span></td>
+					<td th:text="#{notification.no_new}"></td>
+				</tr>
+                <tr th:each="notification : ${newNotifications}">
+                    <td class="imp-notification-message">
                         <a th:href="@{/notifications/toggle(id=${notification.id})}" class="btn btn-default">
                             <span th:class="${'glyphicon ' + (notification.read ? 'glyphicon-eye-close' : 'glyphicon-eye-open')}">
                             </span>
-                            <span th:text="${notification.read ? '**als ungelesen markieren**' : '**als gelesen markieren**'}"></span>
+                            <span th:text="${notification.read}
+                                    ? #{notification.mark_unread}
+                                    : #{notification.mark_read}"></span>
                         </a>
                     </td>
-                    <td>
+                    <td class="imp-notification-message">
                         <a th:href="@{/notifications/read(id=${notification.id})}"
-                           th:text="${notification.message}">**No message for notification**</a>
+                           th:text="#{${notification.message}}?:#{notification.no_message}"></a>
+                    </td>
+                </tr>
+				<tr>
+					<th th:text="#{notification.old_notification}"></th>
+					<th></th>
+				</tr>
+				<tr th:if="${!hasOldNotifications}">
+					<td><span class="glyphicon glyphicon-heart-empty"></span></td>
+					<td th:text="#{notification.no_old}"></td>
+				</tr>
+                <tr th:each="notification : ${oldNotifications}">
+                    <td class="imp-notification-message">
+                        <a th:href="@{/notifications/toggle(id=${notification.id})}" class="btn btn-default">
+                            <span th:class="${'glyphicon ' + (notification.read ? 'glyphicon-eye-close' : 'glyphicon-eye-open')}">
+                            </span>
+                            <span th:text="${notification.read}
+                                    ? #{notification.mark_unread}
+                                    : #{notification.mark_read}"></span>
+                        </a>
+                    </td>
+                    <td class="imp-notification-message">
+                        <a th:href="@{/notifications/read(id=${notification.id})}"
+                           th:text="#{${notification.message}}?:#{notification.no_message}"></a>
                     </td>
                 </tr>
                 </tbody>

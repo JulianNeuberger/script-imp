@@ -4,36 +4,43 @@
     <head th:fragment="head">
         <title>ScriptIMP</title>
 
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
         <!-- bootstrap -->
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css"/>
         <!-- bootstrap select -->
         <link rel="stylesheet" th:href="@{/css/bootstrap-select.min.css}" type="text/css"/>
-        <link rel="stylesheet" th:href="@{/css/admin.css}" type="text/css"/>
+        <link rel="stylesheet" th:href="@{/css/custom.css}" type="text/css"/>
     </head>
 <body>
     <nav th:fragment="navigation"
-         class="navbar navbar-default">
-        <div class="container-fluid">
+         class="navbar navbar-default navbar-fixed-top imp-no-collapse">
+        <div class="container-fluid container">
             <div class="navbar-header">
                 <a th:href="@{/}" class="navbar-brand">
-                    ScriptIMP
+					ScriptIMP
                 </a>
             </div>
-            <ul class="nav navbar-nav navbar-left">
-
-            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li th:if="${user != null}">
+                <li th:if="${user ne null}">
                     <a th:href="@{/notifications/show}" class="imp-bubble-container">
                         <span class="glyphicon glyphicon-bell"></span>
-                        <span class="imp-bubble"
-                              th:if="${hasNotifications}"
-                              th:text="${notifications.size()}"></span>
+                        <span class="imp-bubble imp-nag"
+                              th:if="${hasNewNotifications}"
+                              th:text="${newNotifications.size()}"></span>
                     </a>
                 </li>
-                <li>
-                    <a th:href="@{/cart/show}">
+                <li th:if="${user ne null}">
+                    <a th:href="@{/user/show/self}">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </a>
+                </li>
+                <li th:if="${user ne null}">
+                    <a th:href="@{/cart/show}" class="imp-bubble-container">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
+                        <span class="imp-bubble"
+                              th:if="${cartItemCount ne 0}"
+                              th:text="${cartItemCount}"></span>
                     </a>
                 </li>
                 <li th:if="${user?.admin}" >
@@ -43,13 +50,13 @@
                 </li>
                 <li th:if="${user eq null}">
                     <a th:href="@{/user/login}">
-                        **login**
+                        <span th:text="#{login}"></span>
                         <span class="glyphicon glyphicon-log-in"></span>
                     </a>
                 </li>
                 <li th:if="${user ne null}">
                     <a th:href="@{/user/logout}">
-                        **logout**
+                        <span th:text="#{logout}" class="hidden-xs"></span>
                         <span class="glyphicon glyphicon-log-out"></span>
                     </a>
                 </li>
@@ -57,6 +64,13 @@
         </div>
     </nav>
     <footer th:fragment="footer">
+        <!--<div class="navbar navbar-default navbar-static-bottom">-->
+            <!--<div class="container-fluid text-right">-->
+                <!--<a class="text-muted"-->
+                   <!--href="https://github.com/Killerzelle"-->
+                   <!--th:text="#{copyright}"></a>-->
+            <!--</div>-->
+        <!--</div>-->
         <script th:src="@{/js/jquery-3.1.1.min.js}" type="application/javascript"></script>
         <script th:src="@{/js/bootstrap.min.js}" type="application/javascript"></script>
         <script th:src="@{/js/bootstrap-select.min.js}" type="application/javascript"></script>

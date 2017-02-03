@@ -11,7 +11,7 @@
             <a th:href="${backLink}">
                 <button class="btn btn-default">
                     <span class="glyphicon glyphicon-menu-left"></span>
-                    **zurück**
+                    <span th:text="#{back.document_overview}"></span>
                 </button>
             </a>
         </div>
@@ -21,7 +21,7 @@
                 <input type="hidden" name="id" th:value="${document.id}"/>
                 <input type="hidden" name="backLink" th:value="${backLink}"/>
                 <button type="submit" class="btn btn-default">
-                    **auf druckliste**
+                    <span th:text="#{print.add_to_cart}"></span>
                     <span class="glyphicon glyphicon-shopping-cart"></span>
                 </button>
             </form>

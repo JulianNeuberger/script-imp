@@ -39,7 +39,7 @@ public class PrintJobManager {
         printJob.setStatus(PrintStatus.APPROVAL);
         notificationService.createNotification(
                 UserAuthority.DO_PRINT,
-                "**there is a new print request**",
+                "notification.new_print",
                 "/print/show/jobs?status=APPROVAL"
         );
         return this.printJobRepository.save(printJob);
