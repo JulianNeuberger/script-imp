@@ -1,10 +1,8 @@
 package de.fsmpi.model.document;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Set;
 
 /**
@@ -14,58 +12,58 @@ import java.util.Set;
 @Table
 public class Lecture {
 
-    @Id
-    @Column
-    @GeneratedValue
-    protected Long id;
+	@Id
+	@Column
+	@GeneratedValue
+	protected Long id;
 
-    @Column
-    protected String name;
+	@Column
+	protected String name;
 
-    @Column
-    protected Field field;
+	@Column
+	protected Field field;
 
-    @ManyToMany(mappedBy = "lectures")
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    protected Set<Lecturer> lecturers;
+	@ManyToMany(mappedBy = "lectures")
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+	protected Set<Lecturer> lecturers;
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Field getField() {
-        return field;
-    }
+	public Field getField() {
+		return field;
+	}
 
-    public void setField(Field field) {
-        this.field = field;
-    }
+	public void setField(Field field) {
+		this.field = field;
+	}
 
-    public Set<Lecturer> getLecturers() {
-        return lecturers;
-    }
+	public Set<Lecturer> getLecturers() {
+		return lecturers;
+	}
 
-    public void setLecturers(Set<Lecturer> lecturers) {
-        this.lecturers = lecturers;
-    }
+	public void setLecturers(Set<Lecturer> lecturers) {
+		this.lecturers = lecturers;
+	}
 
-    @Override
-    public String toString() {
-        return "Lecture{" +
-                "key='" + name + '\'' +
-                ", field=" + field +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Lecture{" +
+				"key='" + name + '\'' +
+				", field=" + field +
+				'}';
+	}
 }

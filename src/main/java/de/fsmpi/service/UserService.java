@@ -10,4 +10,6 @@ public interface UserService extends UserDetailsService {
     User register(User user);
 
 	User updateProfile(User user, String password, String firstName, String lastName, String email);
+
+	boolean currentUserAllowedToPrint();
 }

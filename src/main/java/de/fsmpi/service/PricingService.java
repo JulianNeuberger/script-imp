@@ -12,12 +12,6 @@ import java.math.BigDecimal;
 @Service
 public interface PricingService {
 
-    BigDecimal getPriceForPages(int pages);
-
-    BigDecimal getPriceForDocument(Document document);
-
-    BigDecimal getPriceForDocuments(Iterable<Document> documents);
-
     BigDecimal getPriceForPrintJob(PrintJob printJob);
 
     BigDecimal getPriceForPrintJobs(Iterable<PrintJob> printJobs);

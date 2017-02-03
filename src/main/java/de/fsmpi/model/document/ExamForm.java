@@ -1,11 +1,11 @@
 package de.fsmpi.model.document;
 
 public enum ExamForm {
-    ORAL("document.form.oral"), WRITTEN("document.form.written");
+	ORAL("document.form.oral"), WRITTEN("document.form.written");
 
-    public final String key;
+	public final String key;
 
-    ExamForm(String key) {
-        this.key = key;
-    }
+	ExamForm(String key) {
+		this.key = key;
+	}
 }

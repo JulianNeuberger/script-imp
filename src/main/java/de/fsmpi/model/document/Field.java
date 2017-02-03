@@ -5,15 +5,15 @@ package de.fsmpi.model.document;
  */
 public enum Field {
 
-    MATH("Mathe"), PHYSICS("Physik"), COMPUTER_SCIENCE("Info");
+	MATH("Mathe"), PHYSICS("Physik"), COMPUTER_SCIENCE("Info");
 
-    protected final String name;
+	protected final String name;
 
-    private Field(String name) {
-        this.name = name;
-    }
+	private Field(String name) {
+		this.name = name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 }

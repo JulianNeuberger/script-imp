@@ -1,6 +1,7 @@
 package de.fsmpi.misc;
 
 import de.fsmpi.model.document.Document;
+import de.fsmpi.model.print.PrintJobDocument;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,13 +19,13 @@ public class Cart {
 
 	@JoinTable
 	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Document> documents = new ArrayList<>();
+	private List<PrintJobDocument> documents = new ArrayList<>();
 
-    public List<Document> getDocuments() {
-        return Collections.unmodifiableList(documents);
+    public List<PrintJobDocument> getDocuments() {
+        return documents;
     }
 
-    public void setDocuments(List<Document> documents) {
+    public void setDocuments(List<PrintJobDocument> documents) {
         this.documents = documents;
     }
 
@@ -37,12 +38,12 @@ public class Cart {
 	}
 
 	@Transient
-    public void addDocumentToCart(Document document) {
-        this.documents.add(document);
+    public void addItemToCart(PrintJobDocument printJobDocument) {
+    	this.documents.add(printJobDocument);
     }
 
     @Transient
-    public void removeDocumentFromCart(Document document) {
+    public void removeItemFromCart(PrintJobDocument document) {
         this.documents.remove(document);
     }
 
@@ -55,4 +56,43 @@ public class Cart {
     public int getItemCount() {
         return this.documents.size();
     }
+
+    @Transient
+    public boolean hasDocument(Document document) {
+		for (PrintJobDocument printJobDocument : documents) {
+			if(printJobDocument.getDocument().equals(document)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Transient
+	public PrintJobDocument getItemForId(Long id) {
+		for (PrintJobDocument document : documents) {
+			if(document.getId().equals(id)) {
+				return document;
+			}
+		}
+		return null;
+	}
+
+	@Transient
+	public PrintJobDocument getItemForDocument(Document document) {
+		for (PrintJobDocument printJobDocument : documents) {
+			if(printJobDocument.getDocument().equals(document)) {
+				return printJobDocument;
+			}
+		}
+		return null;
+	}
+
+	@Transient
+	public void removeItemFromCartForDocument(Document document) {
+    	for (PrintJobDocument printJobDocument : documents) {
+			if(printJobDocument.getDocument().equals(document)) {
+				removeItemFromCart(printJobDocument);
+			}
+		}
+	}
 }

@@ -9,12 +9,12 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("integer")
 public class IntegerOption<V> extends Option<Integer> {
-    static {
-        Option.addSubclass(IntegerOption.class);
-    }
+	static {
+		Option.addSubclass(IntegerOption.class);
+	}
 
-    @Override
-    public Integer getValueTypeSafe() {
-        return Integer.valueOf(this.value);
-    }
+	@Override
+	public Integer getValueTypeSafe() {
+		return Integer.valueOf(this.value);
+	}
 }

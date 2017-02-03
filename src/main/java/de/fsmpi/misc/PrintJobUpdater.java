@@ -8,9 +8,6 @@ import javax.print.DocPrintJob;
 import javax.print.event.PrintJobEvent;
 import javax.print.event.PrintJobListener;
 
-/**
- * Created by Julian on 26.01.2017.
- */
 public class PrintJobUpdater implements PrintJobListener {
 
     private PrintJob job;

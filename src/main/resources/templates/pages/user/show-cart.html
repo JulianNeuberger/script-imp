@@ -24,17 +24,43 @@
                         <th th:text="#{document.name_short}"></th>
                         <th th:text="#{document.lecture_short}"></th>
                         <th th:text="#{document.lecturer_short}"></th>
+						<th th:text="#{document.copies}"></th>
                         <th th:text="#{possible_actions_short}"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="document : ${documents}">
-                        <td th:text="${document.name}"></td>
-                        <td th:text="${document.lecture?.name}">-</td>
-                        <td th:text="${document.lecturer?.name}">-</td>
+                    <tr th:each="printJobDoc : ${documents}">
+                        <td th:text="${printJobDoc.document.name}"></td>
+                        <td th:text="${printJobDoc.document.lecture?.name}">-</td>
+                        <td th:text="${printJobDoc.document.lecturer?.name}">-</td>
+						<td class="imp-copy-count-cell">
+							<form th:action="@{/cart/item/copies}">
+								<input type="hidden" name="id" th:value="${printJobDoc.id}"/>
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button class="btn btn-default"
+												name="copyCount"
+												th:disabled="${printJobDoc.count eq 1}"
+												th:value="${printJobDoc.count} - 1">
+											<span class="glyphicon glyphicon-minus"></span>
+										</button>
+									</div>
+									<input type="number"
+										   class="imp-copy-count form-control"
+										   th:value="${printJobDoc.count}"/>
+									<div class="input-group-btn">
+										<button class="btn btn-default"
+												name="copyCount"
+												th:value="${printJobDoc.count} + 1">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+									</div>
+								</div>
+							</form>
+						</td>
                         <td>
-                            <form th:action="@{/cart/remove/document}">
-                                <input type="hidden" name="id" th:value="${document.id}"/>
+                            <form th:action="@{/cart/remove/item}">
+                                <input type="hidden" name="id" th:value="${printJobDoc.id}"/>
                                 <button type="submit" class="btn btn-default">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>

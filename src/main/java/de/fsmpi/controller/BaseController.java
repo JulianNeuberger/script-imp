@@ -38,7 +38,7 @@ public class BaseController {
 
     @ModelAttribute
     public void cartItemCount(Model model) {
-        Cart cart = getCartOfUserOrNull();
+        Cart cart = getCartOfUserOrCreate();
         if(cart != null) {
 			model.addAttribute("cartItemCount", cart.getItemCount());
 		} else {
@@ -60,7 +60,7 @@ public class BaseController {
 	 *
 	 * @return null if no user is logged in, the (generated) cart otherwise
 	 */
-	Cart getCartOfUserOrNull() {
+	Cart getCartOfUserOrCreate() {
     	User user = getCurrentUserOrNull();
     	if(user == null) {
     		return null;

@@ -1,173 +1,174 @@
 <!doctype html>
 <html layout:decorator="layouts/single"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.thymeleaf.org">
 <head>
 </head>
 <body>
 <main layout:fragment="content" class="container">
 
-        <form action="" class="imp-form">
-            <input type="hidden" name="page" th:value="${page}"/>
-            <input type="hidden" name="size" th:value="${size}"/>
+	<form action="" class="imp-form">
+		<input type="hidden" name="page" th:value="${page}"/>
+		<input type="hidden" name="size" th:value="${size}"/>
 
-            <div class="row">
-                <div class="col-xs-12 col-lg-5">
-                    <div class="input-group">
-                        <label for="lecturer"
-                               class="input-group-addon"
-                               th:text="#{document.lecturer_short}"></label>
-                        <select id="lecturer" name="lecturerId" class="form-control selectpicker" data-live-search="true">
-                            <option th:selected="${lecturerId == null}"
-                                    th:text="#{all}"
-                                    value=""></option>
-                            <option th:each="cur : ${lecturers}"
-                                    th:value="${cur.id}"
-                                    th:text="${cur.name}"
-                                    th:selected="${cur.id.equals(lecturerId)}"></option>
-                        </select>
-                    </div>
-                </div>
+		<div class="row">
+			<div class="col-xs-12 col-lg-5">
+				<div class="input-group">
+					<label for="lecturer"
+						   class="input-group-addon"
+						   th:text="#{document.lecturer_short}"></label>
+					<select id="lecturer" name="lecturerId" class="form-control selectpicker" data-live-search="true">
+						<option th:selected="${lecturerId == null}"
+								th:text="#{all}"
+								value=""></option>
+						<option th:each="cur : ${lecturers}"
+								th:value="${cur.id}"
+								th:text="${cur.name}"
+								th:selected="${cur.id.equals(lecturerId)}"></option>
+					</select>
+				</div>
+			</div>
 
-                <div class="col-xs-12 col-lg-5">
-                    <div class="input-group">
-                        <label for="lecture"
-                               class="input-group-addon"
-                               th:text="#{document.lecture_short}"></label>
-                        <select id="lecture" name="lectureId" class="form-control selectpicker" data-live-search="true">
-                            <option th:selected="${lectureId == null}"
-                                    th:text="#{all}"
-                                    value=""></option>
-                            <option th:each="cur : ${lectures}"
-                                    th:value="${cur.id}"
-                                    th:text="${cur.name}"
-                                    th:selected="${cur.id.equals(lectureId)}"></option>
-                        </select>
-                    </div>
-                </div>
+			<div class="col-xs-12 col-lg-5">
+				<div class="input-group">
+					<label for="lecture"
+						   class="input-group-addon"
+						   th:text="#{document.lecture_short}"></label>
+					<select id="lecture" name="lectureId" class="form-control selectpicker" data-live-search="true">
+						<option th:selected="${lectureId == null}"
+								th:text="#{all}"
+								value=""></option>
+						<option th:each="cur : ${lectures}"
+								th:value="${cur.id}"
+								th:text="${cur.name}"
+								th:selected="${cur.id.equals(lectureId)}"></option>
+					</select>
+				</div>
+			</div>
 
-                <div class="col-xs-12 col-lg-2">
-                    <div class="input-group">
-                        <label for="examForm"
-							   class="input-group-addon"
-							   th:text="#{document.exam_form_short}"></label>
-                        <select id="examForm" name="examForm" class="form-control selectpicker">
-                            <option value=""
-                                    th:text="#{all}"
-                                    th:selected="${examForm == null}"></option>
-                            <option th:each="cur : ${examForms}"
-                                    th:value="${cur}"
-									th:text="#{${cur.key}}"
-                                    th:selected="${cur.equals(examForm)}"></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+			<div class="col-xs-12 col-lg-2">
+				<div class="input-group">
+					<label for="examForm"
+						   class="input-group-addon"
+						   th:text="#{document.exam_form_short}"></label>
+					<select id="examForm" name="examForm" class="form-control selectpicker">
+						<option value=""
+								th:text="#{all}"
+								th:selected="${examForm == null}"></option>
+						<option th:each="cur : ${examForms}"
+								th:value="${cur}"
+								th:text="#{${cur.key}}"
+								th:selected="${cur.equals(examForm)}"></option>
+					</select>
+				</div>
+			</div>
+		</div>
 
-            <div class="row">
-                <div class="col-xs-12 col-lg-10">
-                    <div class="input-group">
-                        <label class="input-group-addon"
-                               th:text="#{document.keyword}"
-                               for="doc-name"></label>
-                        <input type="text"
-                               name="keyword"
-                               th:value="${keyword}"
-                               id="doc-name"
-                               class="form-control"/>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-lg-2">
-                    <div class="btn-group btn-block">
-                        <button class="btn btn-primary btn-block">
-							<span class="glyphicon glyphicon-search"></span>
-							<span class="hidden-xs hidden-sm"
-								  th:text="#{search}"></span>
-						</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+		<div class="row">
+			<div class="col-xs-12 col-lg-10">
+				<div class="input-group">
+					<label class="input-group-addon"
+						   th:text="#{document.keyword}"
+						   for="doc-name"></label>
+					<input type="text"
+						   name="keyword"
+						   th:value="${keyword}"
+						   id="doc-name"
+						   class="form-control"/>
+				</div>
+			</div>
+			<div class="col-xs-12 col-lg-2">
+				<div class="btn-group btn-block">
+					<button class="btn btn-primary btn-block">
+						<span class="glyphicon glyphicon-search"></span>
+						<span class="hidden-xs hidden-sm"
+							  th:text="#{search}"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
 
-    <div class="row">
-        <div class="col-xs-12 table-responsive">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th th:text="#{document.lecture_short}"></th>
-                    <th th:text="#{document.lecturer_short}"></th>
-                    <th th:text="#{document.term_short}"></th>
-                    <th th:text="#{document.exam_form_short}"></th>
-                    <th th:text="#{document.exam_type_short}"></th>
-                    <th th:text="#{possible_actions_short}"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="document : ${documents}">
-                    <td th:text="${document.lecture?.name}?:#{document.not_applicable}"></td>
-                    <td th:text="${document.lecturer?.name}?:#{document.not_applicable}"></td>
-                    <td th:text="${document.semester}?:#{document.not_applicable}"></td>
-                    <td th:text="#{${document.examForm.key}}?:#{document.not_applicable}"></td>
-                    <td th:text="${document.examType.name}?:#{document.not_applicable}"></td>
-                    <td>
-                        <form th:action="@{/cart/add/document}" class="form-inline">
-                            <input type="hidden" name="id" th:value="${document.id}"/>
-                            <button type="submit" class="btn btn-default">
+	<div class="row">
+		<div class="col-xs-12 table-responsive">
+			<table class="table table-striped">
+				<thead>
+				<tr>
+					<th th:text="#{document.lecture_short}"></th>
+					<th th:text="#{document.lecturer_short}"></th>
+					<th th:text="#{document.term_short}"></th>
+					<th th:text="#{document.exam_form_short}"></th>
+					<th th:text="#{document.exam_type_short}"></th>
+					<th th:text="#{possible_actions_short}" class="text-right"></th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="document : ${documents}">
+					<td th:text="${document.lecture?.name}?:#{document.not_applicable}"></td>
+					<td th:text="${document.lecturer?.name}?:#{document.not_applicable}"></td>
+					<td th:text="${document.semester}?:#{document.not_applicable}"></td>
+					<td th:text="#{${document.examForm.key}}?:#{document.not_applicable}"></td>
+					<td th:text="${document.examType.name}?:#{document.not_applicable}"></td>
+					<td class="text-right">
+						<form th:action="@{/cart/add/document}" class="form-inline">
+							<input type="hidden" name="id" th:value="${document.id}"/>
+							<button type="submit" class="btn btn-default">
 								<span class="glyphicon glyphicon-shopping-cart"></span>
 								<span th:text="#{print.add_to_cart}"
 									  class="hidden-xs hidden-sm"></span>
-                            </button>
-                        </form>
-                        <form th:action="@{/documents/show}" class="form-inline">
-                            <input type="hidden" name="backLink"
-                                   th:value="${pageLink}"/>
-                            <input type="hidden" name="id"
-                                   th:value="${document.id}"/>
-                            <button th:if="${user.canViewPDFs()}"
+							</button>
+						</form>
+						<form th:action="@{/documents/show}" class="form-inline">
+							<input type="hidden" name="backLink"
+								   th:value="${pageLink}"/>
+							<input type="hidden" name="id"
+								   th:value="${document.id}"/>
+							<button th:if="${user.canViewPDFs()}"
 									type="submit"
-                                    class="btn btn-default">
+									class="btn btn-default">
 								<span class="glyphicon glyphicon-eye-open"></span>
 								<span th:text="#{document.view_short}"
 									  class="hidden-xs hidden-sm"></span>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+							</button>
+						</form>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
-    <div class="row">
-        <form action="" class="imp-form text-center">
-            <input type="hidden" name="lectureId" th:value="${lectureId}"/>
-            <input type="hidden" name="lecturerId" th:value="${lecturerId}"/>
-            <input type="hidden" name="examForm" th:value="${examForm}"/>
-            <input type="hidden" name="keyword" th:value="${keyword}"/>
-            <input type="hidden" name="size" th:value="${size}" />
-            <input type="hidden" name="lectureId" th:value="${lectureId}"/>
+	<div class="row">
+		<form action="" class="imp-form text-center">
+			<input type="hidden" name="lectureId" th:value="${lectureId}"/>
+			<input type="hidden" name="lecturerId" th:value="${lecturerId}"/>
+			<input type="hidden" name="examForm" th:value="${examForm}"/>
+			<input type="hidden" name="keyword" th:value="${keyword}"/>
+			<input type="hidden" name="size" th:value="${size}"/>
+			<input type="hidden" name="lectureId" th:value="${lectureId}"/>
 
-            <span th:if="${totalPages gt 0}">
+			<span th:if="${totalPages gt 0}">
                 <button th:if="${page gt 0}"
-                        name="page"
-                        class="btn btn-default"
-                        th:value="${page - 1}">
+						name="page"
+						class="btn btn-default"
+						th:value="${page - 1}">
                     <span class="glyphicon glyphicon-chevron-left"></span>
                 </button>
                 <button th:each="pageNumber : ${#numbers.sequence(T(Math).max(0, page - 5), T(Math).min(page + 5, totalPages-1))}"
-                        th:class="${'btn ' + ((page eq pageNumber) ? 'btn-primary' : 'btn-default')}"
-                        th:value="${pageNumber}"
-                        name="page">
+						th:class="${'btn ' + ((page eq pageNumber) ? 'btn-primary' : 'btn-default')}"
+						th:value="${pageNumber}"
+						name="page">
                     <span th:text="${pageNumber + 1}"></span>
                 </button>
                 <button th:if="${page lt totalPages - 1}"
-                        class="btn btn-default"
-                        th:value="${page + 1}">
+						class="btn btn-default"
+						name="page"
+						th:value="${page + 1}">
                     <span class="glyphicon glyphicon-chevron-right"></span>
                 </button>
             </span>
-        </form>
-    </div>
+		</form>
+	</div>
 </main>
 </body>
 </html>

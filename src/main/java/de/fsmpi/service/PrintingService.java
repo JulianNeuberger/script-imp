@@ -2,33 +2,29 @@ package de.fsmpi.service;
 
 import de.fsmpi.model.document.Document;
 import de.fsmpi.model.print.PrintJob;
+import de.fsmpi.model.print.PrintJobDocument;
 
 import javax.print.PrintService;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 public interface PrintingService {
 
-    PrintJob printDocument(Document document);
+	PrintJob printDocuments(PrintJob printJob);
 
-    PrintJob printDocuments(Collection<Document> documents);
+	void setDefaultPrinter(String name);
 
-    void setDefaultPrinter(String name);
+	Set<PrintService> findRegisteredPrinters();
 
-    Set<PrintService> findRegisteredPrinters();
+	boolean isRegisteredPrinter(String name);
 
-    boolean isRegisteredPrinter(String name);
+	PrintService getPrinterForName(String name);
 
-    PrintService getPrinterForName(String name);
+	PrintService getDefaultPrinter();
 
-    PrintJob tryPrint(Collection<Document> documents);
+	PrintJob doPrintJob(PrintJob job);
 
-    PrintJob tryPrint(Document document);
+	PrintJob doPrintJob(Long jobId);
 
-    PrintService getDefaultPrinter();
-
-    PrintJob doPrintJob(PrintJob job);
-
-    List<PrintJob> doPrintJobs(Iterable<PrintJob> jobs);
+	List<PrintJob> doPrintJobs(Iterable<PrintJob> jobs);
 }

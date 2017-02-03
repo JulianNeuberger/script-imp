@@ -1,7 +1,6 @@
 package de.fsmpi.model.print;
 
 import de.fsmpi.model.user.User;
-import de.fsmpi.model.document.Document;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
@@ -12,68 +11,68 @@ import java.util.Collection;
 @Table
 public class PrintJob {
 
-    @Id
-    @Column
-    @GeneratedValue
-    protected Long id;
+	@Id
+	@Column
+	@GeneratedValue
+	protected Long id;
 
-    @Column
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    protected DateTime createdDate;
+	@Column
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	protected DateTime createdDate;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    protected PrintStatus status;
+	@Column
+	@Enumerated(EnumType.STRING)
+	protected PrintStatus status;
 
-    @ManyToMany
-    @JoinTable
-    protected Collection<Document> documents;
+	@ManyToMany
+	@JoinTable
+	protected Collection<PrintJobDocument> documents;
 
-    @ManyToOne
-    protected User issuedBy;
+	@ManyToOne
+	protected User issuedBy;
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public DateTime getCreatedDate() {
-        return createdDate;
-    }
+	public DateTime getCreatedDate() {
+		return createdDate;
+	}
 
-    public void setCreatedDate(DateTime createdDate) {
-        this.createdDate = createdDate;
-    }
+	public void setCreatedDate(DateTime createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public Collection<Document> getDocuments() {
-        return documents;
-    }
+	public Collection<PrintJobDocument> getDocuments() {
+		return documents;
+	}
 
-    public void setDocuments(Collection<Document> documents) {
-        this.documents = documents;
-    }
+	public void setDocuments(Collection<PrintJobDocument> documents) {
+		this.documents = documents;
+	}
 
-    public PrintStatus getStatus() {
-        return status;
-    }
+	public PrintStatus getStatus() {
+		return status;
+	}
 
-    public void setStatus(PrintStatus status) {
-        this.status = status;
-    }
+	public void setStatus(PrintStatus status) {
+		this.status = status;
+	}
 
-    public User getIssuedBy() {
-        return issuedBy;
-    }
+	public User getIssuedBy() {
+		return issuedBy;
+	}
 
-    public void setIssuedBy(User issuedBy) {
-        this.issuedBy = issuedBy;
-    }
+	public void setIssuedBy(User issuedBy) {
+		this.issuedBy = issuedBy;
+	}
 
-    @Transient
-    public boolean needsApproval() {
-        return this.status == PrintStatus.APPROVAL;
-    }
+	@Transient
+	public boolean needsApproval() {
+		return this.status == PrintStatus.APPROVAL;
+	}
 }

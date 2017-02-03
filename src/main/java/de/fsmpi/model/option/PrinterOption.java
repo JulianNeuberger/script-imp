@@ -15,33 +15,33 @@ import java.util.List;
 @DiscriminatorValue("printer")
 public class PrinterOption<V> extends Option<PrintService> {
 
-    static {
-        Option.addSubclass(PrinterOption.class);
-    }
+	static {
+		Option.addSubclass(PrinterOption.class);
+	}
 
-    @Override
-    public PrintService getValueTypeSafe() {
-        PrintService[] printServices = PrinterJob.lookupPrintServices();
-        for (PrintService printService : printServices) {
-            if(printService.getName().equalsIgnoreCase(this.value)) {
-                return printService;
-            }
-        }
-        return null;
-    }
+	@Override
+	public PrintService getValueTypeSafe() {
+		PrintService[] printServices = PrinterJob.lookupPrintServices();
+		for (PrintService printService : printServices) {
+			if (printService.getName().equalsIgnoreCase(this.value)) {
+				return printService;
+			}
+		}
+		return null;
+	}
 
-    @Override
-    public Iterable<String> getPossibleValues() {
-        List<PrintService> printServices = Arrays.asList(PrinterJob.lookupPrintServices());
-        List<String> printerNames = new ArrayList<>();
-        for (PrintService printService : printServices) {
-            printerNames.add(printService.getName());
-        }
-        return printerNames;
-    }
+	@Override
+	public Iterable<String> getPossibleValues() {
+		List<PrintService> printServices = Arrays.asList(PrinterJob.lookupPrintServices());
+		List<String> printerNames = new ArrayList<>();
+		for (PrintService printService : printServices) {
+			printerNames.add(printService.getName());
+		}
+		return printerNames;
+	}
 
-    @Override
-    public boolean hasPossibleValues() {
-        return true;
-    }
+	@Override
+	public boolean hasPossibleValues() {
+		return true;
+	}
 }

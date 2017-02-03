@@ -3,22 +3,20 @@ package de.fsmpi.service;
 import de.fsmpi.model.document.Document;
 import de.fsmpi.model.option.Option;
 import de.fsmpi.model.print.PrintJob;
+import de.fsmpi.model.print.PrintJobDocument;
 import de.fsmpi.model.print.PrintStatus;
-import de.fsmpi.model.user.User;
 import de.fsmpi.model.user.UserAuthority;
-import de.fsmpi.repository.PrintJobRepository;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.print.PrintService;
+import javax.print.*;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -28,41 +26,28 @@ public class DefaultPrintingService implements PrintingService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPrintingService.class);
 
 	private final OptionService optionService;
-	private final PrintJobRepository printJobRepository;
 	private final PrintJobManager printJobManager;
 	private final NotificationService notificationService;
+	private final UserService userService;
 
 	@Autowired
-	public DefaultPrintingService(PrintJobRepository printJobRepository,
-								  OptionService optionService,
+	public DefaultPrintingService(OptionService optionService,
 								  NotificationService notificationService,
+								  UserService userService,
 								  PrintJobManager printJobManager) {
-		this.printJobRepository = printJobRepository;
 		this.optionService = optionService;
+		this.userService = userService;
 		this.printJobManager = printJobManager;
 		this.notificationService = notificationService;
 	}
 
 	@Override
-	public PrintJob printDocument(Document document) {
-		return this.printDocuments(Collections.singleton(document));
-	}
-
-	@Override
-	public PrintJob printDocuments(Collection<Document> documents) {
-		PrintJob printJob = new PrintJob();
-		printJob.setDocuments(documents);
-		printJob.setCreatedDate(DateTime.now());
-
+	public PrintJob printDocuments(PrintJob printJob) {
 		boolean success = true;
-		for (Document document : documents) {
-			success &= this.printDocumentHelper(document);
+		for (PrintJobDocument printJobDocument : printJob.getDocuments()) {
+			success &= this.printDocumentHelper(printJobDocument);
 		}
-		printJob.setStatus(success ? PrintStatus.WAITING : PrintStatus.FAILED);
-
-		printJob = this.printJobRepository.save(printJob);
-
-		return printJob;
+		return printJobManager.notify(printJob, success ? PrintStatus.WAITING : PrintStatus.FAILED);
 	}
 
 	@Override
@@ -100,31 +85,6 @@ public class DefaultPrintingService implements PrintingService {
 		return null;
 	}
 
-	/**
-	 * prints if current user has privileges to do so, or posts a request for an admin to print it otherwise
-	 *
-	 * @return the List of PrintJob objects created for this request
-	 */
-	@Override
-	public PrintJob tryPrint(Collection<Document> documents) {
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (user.canPrint()) {
-			return this.printDocuments(documents);
-		} else {
-			return this.printJobManager.addPrintJobToApprove(documents);
-		}
-	}
-
-	/**
-	 * prints if current user has privileges to do so, or posts a request for an admin to print it otherwise
-	 *
-	 * @return the PrintJob object created for this request
-	 */
-	@Override
-	public PrintJob tryPrint(Document document) {
-		return this.tryPrint(Collections.singleton(document));
-	}
-
 	@Override
 	public PrintService getDefaultPrinter() {
 		return this.getPrinterForName(this.getDefaultPrinterName());
@@ -132,15 +92,24 @@ public class DefaultPrintingService implements PrintingService {
 
 	@Override
 	public PrintJob doPrintJob(PrintJob job) {
+		PrintStatus newStatus = PrintStatus.WAITING;
 		boolean success = true;
-		job.setStatus(PrintStatus.WAITING);
-		for (Document document : job.getDocuments()) {
-			success &= this.printDocumentHelper(document);
+		if(userService.currentUserAllowedToPrint()) {
+			for (PrintJobDocument document : job.getDocuments()) {
+				success &= this.printDocumentHelper(document);
+			}
+		} else {
+			newStatus = PrintStatus.APPROVAL;
 		}
 		if (!success) {
-			job.setStatus(PrintStatus.FAILED);
+			newStatus = PrintStatus.FAILED;
 		}
-		return this.printJobRepository.save(job);
+		return this.printJobManager.notify(job, newStatus);
+	}
+
+	@Override
+	public PrintJob doPrintJob(Long jobId) {
+		return doPrintJob(printJobManager.findPrintJob(jobId));
 	}
 
 	@Override
@@ -156,12 +125,16 @@ public class DefaultPrintingService implements PrintingService {
 		return this.optionService.getOptionByName(Option.DEFAULT_PRINTER).getValue();
 	}
 
-	private boolean printDocumentHelper(Document document) {
-		try (PDDocument pdfDoc = PDDocument.load(document.getFileHandle())) {
+	private boolean printDocumentHelper(PrintJobDocument printJobDocument) {
+		Document document = printJobDocument.getDocument();
+		try {
+			PDDocument pdfDoc = PDDocument.load(document.getFileHandle());
 			PrinterJob printerJob = PrinterJob.getPrinterJob();
 			printerJob.setPrintService(getDefaultPrinter());
 			printerJob.setJobName(document.getName());
+			printerJob.setCopies(printJobDocument.getCount());
 			pdfDoc.silentPrint(printerJob);
+			pdfDoc.close();
 		} catch (IOException e) {
 			LOGGER.error(MessageFormat.format("Exception while loading a PDF - Maybe {0} is corrupt?", document.getFilePath()), e);
 			notificationService.createNotification(

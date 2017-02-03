@@ -4,6 +4,7 @@ import de.fsmpi.model.user.User;
 import de.fsmpi.model.user.UserAuthority;
 import de.fsmpi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -60,5 +61,11 @@ public class UserServiceImpl implements UserService {
 		if(email.length() > 0) {
 		}
 		return userRepository.save(user);
+	}
+
+	@Override
+	public boolean currentUserAllowedToPrint() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return principal instanceof User && ((User) principal).getAuthorities().contains(UserAuthority.DO_PRINT);
 	}
 }

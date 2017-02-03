@@ -1,17 +1,10 @@
 package de.fsmpi.controller;
 
 import de.fsmpi.misc.Cart;
-import de.fsmpi.model.document.Document;
 import de.fsmpi.model.print.PrintJob;
 import de.fsmpi.model.print.PrintStatus;
-import de.fsmpi.repository.DocumentRepository;
-import de.fsmpi.repository.PrintJobRepository;
-import de.fsmpi.service.CartService;
-import de.fsmpi.service.NotificationService;
-import de.fsmpi.service.PricingService;
-import de.fsmpi.service.PrintingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.fsmpi.model.user.User;
+import de.fsmpi.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,62 +21,44 @@ import java.math.BigDecimal;
 @RequestMapping("/print")
 public class PrintController extends BaseController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PrintController.class);
-
-	private final DocumentRepository documentRepository;
-	private final PrintJobRepository printJobRepository;
+//	private static final Logger LOGGER = LoggerFactory.getLogger(PrintController.class);
 	private final PricingService pricingService;
+	private final PrintJobManager printJobManager;
 	private final PrintingService printingService;
 
 	@Autowired
-	public PrintController(DocumentRepository documentRepository,
-						   PrintJobRepository printJobRepository,
+	public PrintController(PrintJobManager printJobManager,
 						   NotificationService notificationService,
 						   PrintingService printingService,
 						   PricingService pricingService,
 						   CartService cartService) {
 		super(notificationService, cartService);
-		this.documentRepository = documentRepository;
-		this.printJobRepository = printJobRepository;
+		this.printJobManager = printJobManager;
 		this.printingService = printingService;
 		this.pricingService = pricingService;
 	}
 
-	@RequestMapping("/document")
-	public String print(@RequestParam("id") Long documentId, Model model) {
-		Document doc = this.documentRepository.findOne(documentId);
-		PrintJob job = this.printingService.tryPrint(doc);
-		boolean printJobsNeedApproval = job.getStatus() == PrintStatus.APPROVAL;
-		model.addAttribute("cost", pricingService.getPriceForPrintJob(job));
-		model.addAttribute("approval", printJobsNeedApproval);
-		return "/pages/user/print-success";
-	}
-
 	@RequestMapping("/cart")
 	public String printCart(Model model) {
-		Cart cart = getCartOfUserOrNull();
-		if (cart != null) {
-			PrintJob printJob = this.printingService.tryPrint(cart.getDocuments());
-			boolean printJobsNeedApproval = printJob.getStatus() == PrintStatus.APPROVAL;
-			BigDecimal cost = pricingService.getPriceForPrintJob(printJob);
-			cartService.clearCart(cart);
-			model.addAttribute("cost", cost.doubleValue());
-			model.addAttribute("approval", printJobsNeedApproval);
-		} else {
-			LOGGER.info("A user could reach /print/cart without having a cart! This should not happen!");
-			// FIXME: die a horrible death
-		}
+		Cart cart = getCartOfUserOrCreate();
+		User user = getCurrentUserOrNull();
+		PrintJob printJob =
+				printJobManager.createPrintJobFromDocuments(user, cart.getDocuments(), PrintStatus.APPROVAL);
+		printJob = printingService.doPrintJob(printJob);
+		boolean printJobsNeedApproval = printJob.getStatus() == PrintStatus.APPROVAL;
+		BigDecimal cost = pricingService.getPriceForPrintJob(printJob);
+		cartService.clearCart(cart);
+		model.addAttribute("cost", cost.doubleValue());
+		model.addAttribute("approval", printJobsNeedApproval);
 		return "/pages/user/print-success";
 	}
 
 	@RequestMapping("/job")
 	public String printJob(@RequestParam("id") Long jobId,
 						   Model model) {
-		PrintJob job = this.printJobRepository.findOne(jobId);
-		job = this.printingService.printDocuments(job.getDocuments());
-		boolean printJobsNeedApproval = job.getStatus() == PrintStatus.APPROVAL;
+		PrintJob job = this.printingService.doPrintJob(jobId);
 		model.addAttribute("cost", pricingService.getPriceForPrintJob(job));
-		model.addAttribute("approval", printJobsNeedApproval);
+		model.addAttribute("approval", job.getStatus() == PrintStatus.APPROVAL);
 		return "/pages/user/print-success";
 	}
 
@@ -95,9 +70,9 @@ public class PrintController extends BaseController {
 		Page<PrintJob> printJobsPage;
 		Pageable pageable = new PageRequest(page, size);
 		if (status == null) {
-			printJobsPage = this.printJobRepository.findAllByOrderByCreatedDateDesc(pageable);
+			printJobsPage = this.printJobManager.findAllOrderedByCreationDate(pageable);
 		} else {
-			printJobsPage = this.printJobRepository.findByStatusOrderByCreatedDateDesc(pageable, status);
+			printJobsPage = this.printJobManager.findAllFilteredByStatusOrderedByCreationDate(pageable, status);
 		}
 		model.addAttribute("printJobsPage", printJobsPage);
 		model.addAttribute("printStates", PrintStatus.values());
@@ -111,16 +86,13 @@ public class PrintController extends BaseController {
 
 	@RequestMapping(path = "/job/approve", params = "deny")
 	public String deny(HttpServletRequest request, @RequestParam("id") Long printJobId) {
-		PrintJob job = this.printJobRepository.findOne(printJobId);
-		job.setStatus(PrintStatus.CANCELED);
-		this.printJobRepository.save(job);
+		printJobManager.notify(printJobId, PrintStatus.CANCELED);
 		return "redirect:" + request.getHeader("referer");
 	}
 
 	@RequestMapping(path = "/job/approve", params = "approve")
 	public String approve(HttpServletRequest request, @RequestParam("id") Long printJobId) {
-		PrintJob job = this.printJobRepository.findOne(printJobId);
-		this.printingService.doPrintJob(job);
+		this.printingService.doPrintJob(printJobId);
 		return "redirect:" + request.getHeader("referer");
 	}
 }
