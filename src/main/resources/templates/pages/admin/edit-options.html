@@ -1,36 +1,70 @@
 <!doctype html>
 <html layout:decorator="layouts/single"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.thymeleaf.org">
 <head></head>
 <body>
 <main layout:fragment="content">
-    <ul>
-        <li th:each="option : ${options}">
-            <a th:href="@{/options/edit(name=${option.name})}"
-               th:text="${option.name}"></a>
-        </li>
-    </ul>
-
-    <form th:action="@{/options/add}" class="imp-form">
-        <div class="input-group">
-            <label for="opt-type" class="input-group-addon">**type**</label>
-            <select name="optionClassName"
-                    id="opt-type"
-                    data-live-search="true"
-                    class="selectpicker form-control">
-                <option th:each="val : ${optionClasses}"
-                        th:text="${val}"
-                        th:value="${val}"></option>
-            </select>
-            <div class="input-group-btn">
-                <button type="submit"
-                        class="btn btn-primary">
-                    **create option**
-                </button>
-            </div>
-        </div>
-    </form>
+	<div class="container">
+    	<div class="row">
+			<div class="col-xs-12
+						col-sm-10 col-sm-offset-1
+						col-md-8 col-md-offset-2
+						col-lg-6 col-lg-offset-3">
+				<table class="table">
+					<thead>
+					<tr>
+						<th th:text="#{option.name}"></th>
+						<th th:text="#{option.value}"></th>
+						<th th:text="#{common.possible_actions_short}"></th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr th:each="option : ${options}">
+						<td th:text="${option.name}"></td>
+						<td th:text="${option.value}"></td>
+						<td>
+							<a th:href="@{/options/edit(name=${option.name})}"
+							   class="btn btn-default">
+								<span class="glyphicon glyphicon-edit"></span>
+								<span th:text="#{common.edit}"
+									  class="hidden-xs hidden-sm"></span>
+							</a>
+						</td>
+						<a
+						   ></a>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!--<div class="row">-->
+			<!--<div class="col-xs-12-->
+						<!--col-sm-8 col-sm-offset-2-->
+						<!--col-md-6 col-md-offset-3-->
+						<!--col-lg-4 col-lg-offset-4">-->
+				<!--<form th:action="@{/options/add}" class="imp-form">-->
+					<!--<div class="input-group">-->
+						<!--<label for="opt-type" class="input-group-addon">**type**</label>-->
+						<!--<select name="optionClassName"-->
+								<!--id="opt-type"-->
+								<!--data-live-search="true"-->
+								<!--class="selectpicker form-control">-->
+							<!--<option th:each="val : ${optionClasses}"-->
+									<!--th:text="${val}"-->
+									<!--th:value="${val}"></option>-->
+						<!--</select>-->
+						<!--<div class="input-group-btn">-->
+							<!--<button type="submit"-->
+									<!--class="btn btn-primary">-->
+								<!--**create option**-->
+							<!--</button>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</form>-->
+			<!--</div>-->
+		<!--</div>-->
+	</div>
 </main>
 </body>
 </html>
