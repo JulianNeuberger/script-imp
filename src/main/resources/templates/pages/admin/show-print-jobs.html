@@ -10,27 +10,28 @@
         <form action="" class="imp-form">
             <div class="col-xs-3">
                 <div class="input-group">
-                    <label for="page" class="input-group-addon">**page**</label>
-                    <input id="page" name="page" placeholder="**page**"
+                    <label for="page" class="input-group-addon" th:text="#{pagination.page}">**page**</label>
+                    <input id="page" name="page" placeholder="0"
                            class="form-control" th:value="${page}"/>
                 </div>
             </div>
 
             <div class="col-xs-3">
                 <div class="input-group">
-                    <label for="size" class="input-group-addon">**size**</label>
-                    <input id="size" name="size" placeholder="**jobs per page**"
+                    <label for="size" class="input-group-addon" th:text="#{pagination.jobs_per_page}">**size**</label>
+                    <input id="size" name="size" placeholder="0"
                            class="form-control" th:value="${size}"/>
                 </div>
             </div>
 
             <div class="col-xs-4">
                 <div class="input-group">
-                    <label for="status" class="input-group-addon">**status**</label>
+                    <label for="status" class="input-group-addon" th:text="#{print_job.status}">**status**</label>
                     <select id="status" name="status" class="selectpicker">
                         <option th:value="${null}"
-                                th:selected="${status eq null}">
-                            **alle**
+                                th:selected="${status eq null}"
+                                th:text="#{print_job.all_statuses}">
+                            **all**
                         </option>
                         <option th:each="curStatus : ${printStates}"
                                 th:value="${curStatus}"
@@ -42,17 +43,18 @@
 
             <div class="col-xs-2">
                 <div class="input-group">
-                    <button class="btn btn-default btn-block">**search**</button>
+                    <button class="btn btn-default btn-block" th:text="#{common.search}">**search**</button>
                 </div>
             </div>
         </form>
     </div>
     <table class="table table-striped">
         <thead><tr>
-            <th>**document name**</th>
-            <th>**date**</th>
-            <th>**status**</th>
-            <th>**reprint**</th>
+            <th th:text="#{document.name}">**document name**</th>
+            <th th:text="#{print_job.date}">**date**</th>
+            <th th:text="#{print_job.status}">**status**</th>
+            <th th:text="#{print_job.cost}">**cost**</th>
+            <th th:text="#{common.reprint}">**reprint**</th>
         </tr></thead>
         <tbody>
             <tr th:each="job : ${printJobsPage.content}">

@@ -19,7 +19,7 @@
 						   th:text="#{document.lecturer_short}"></label>
 					<select id="lecturer" name="lecturerId" class="form-control selectpicker" data-live-search="true">
 						<option th:selected="${lecturerId == null}"
-								th:text="#{all}"
+								th:text="#{common.all}"
 								value=""></option>
 						<option th:each="cur : ${lecturers}"
 								th:value="${cur.id}"
@@ -36,7 +36,7 @@
 						   th:text="#{document.lecture_short}"></label>
 					<select id="lecture" name="lectureId" class="form-control selectpicker" data-live-search="true">
 						<option th:selected="${lectureId == null}"
-								th:text="#{all}"
+								th:text="#{common.all}"
 								value=""></option>
 						<option th:each="cur : ${lectures}"
 								th:value="${cur.id}"
@@ -53,7 +53,7 @@
 						   th:text="#{document.exam_form_short}"></label>
 					<select id="examForm" name="examForm" class="form-control selectpicker">
 						<option value=""
-								th:text="#{all}"
+								th:text="#{common.all}"
 								th:selected="${examForm == null}"></option>
 						<option th:each="cur : ${examForms}"
 								th:value="${cur}"
@@ -82,7 +82,7 @@
 					<button class="btn btn-primary btn-block">
 						<span class="glyphicon glyphicon-search"></span>
 						<span class="hidden-xs hidden-sm"
-							  th:text="#{search}"></span>
+							  th:text="#{common.search}"></span>
 					</button>
 				</div>
 			</div>
@@ -99,7 +99,7 @@
 					<th th:text="#{document.term_short}"></th>
 					<th th:text="#{document.exam_form_short}"></th>
 					<th th:text="#{document.exam_type_short}"></th>
-					<th th:text="#{possible_actions_short}" class="text-right"></th>
+					<th th:text="#{common.possible_actions_short}" class="text-right"></th>
 				</tr>
 				</thead>
 				<tbody>

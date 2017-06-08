@@ -12,7 +12,7 @@
             <form method="get" th:action="@{/print/cart}">
 				<button class="btn btn-primary" type="submit">
 					<span class="glyphicon glyphicon-print"></span>
-					<span th:text="#{print}"></span>
+					<span th:text="#{common.print}"></span>
 				</button>
             </form>
         </div>
@@ -25,7 +25,7 @@
                         <th th:text="#{document.lecture_short}"></th>
                         <th th:text="#{document.lecturer_short}"></th>
 						<th th:text="#{document.copies}"></th>
-                        <th th:text="#{possible_actions_short}"></th>
+                        <th th:text="#{common.possible_actions_short}"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -87,7 +87,7 @@
             <form method="get" th:action="@{/print/cart}">
                 <button class="btn btn-primary" type="submit">
                     <span class="glyphicon glyphicon-print"></span>
-                    <span th:text="#{print}"></span>
+                    <span th:text="#{common.print}"></span>
                 </button>
             </form>
         </div>

@@ -51,13 +51,13 @@
 			</li>
 			<li th:if="${user eq null}">
 				<a th:href="@{/user/login}">
-					<span th:text="#{login}"></span>
+					<span th:text="#{common.login}"></span>
 					<span class="glyphicon glyphicon-log-in"></span>
 				</a>
 			</li>
 			<li th:if="${user ne null}">
 				<a th:href="@{/user/logout}">
-					<span th:text="#{logout}" class="hidden-xs"></span>
+					<span th:text="#{common.logout}" class="hidden-xs"></span>
 					<span class="glyphicon glyphicon-log-out"></span>
 				</a>
 			</li>
