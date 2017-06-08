@@ -1,4 +1,4 @@
-package de.fsmpi.misc;
+package de.fsmpi.model.user;
 
 import de.fsmpi.model.document.Document;
 import de.fsmpi.model.print.PrintJobDocument;

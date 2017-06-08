@@ -1,6 +1,6 @@
 package de.fsmpi.controller;
 
-import de.fsmpi.misc.Cart;
+import de.fsmpi.model.user.Cart;
 import de.fsmpi.model.print.PrintJob;
 import de.fsmpi.model.print.PrintStatus;
 import de.fsmpi.model.user.User;

@@ -1,6 +1,6 @@
 package de.fsmpi.service;
 
-import de.fsmpi.misc.Cart;
+import de.fsmpi.model.user.Cart;
 import de.fsmpi.model.document.Document;
 import de.fsmpi.model.print.PrintJobDocument;
 import de.fsmpi.model.user.User;

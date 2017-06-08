@@ -1,6 +1,6 @@
 package de.fsmpi.repository;
 
-import de.fsmpi.misc.Cart;
+import de.fsmpi.model.user.Cart;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

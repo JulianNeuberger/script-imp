@@ -1,6 +1,5 @@
 package de.fsmpi.model.user;
 
-import de.fsmpi.misc.Cart;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

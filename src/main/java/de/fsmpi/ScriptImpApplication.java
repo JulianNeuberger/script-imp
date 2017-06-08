@@ -11,12 +11,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
 
 @SpringBootApplication
-public class ScriptImpApplication extends SpringBootServletInitializer {
-
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(ScriptImpApplication.class);
-	}
+public class ScriptImpApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ScriptImpApplication.class, args);

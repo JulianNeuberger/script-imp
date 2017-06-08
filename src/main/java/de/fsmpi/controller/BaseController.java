@@ -1,6 +1,6 @@
 package de.fsmpi.controller;
 
-import de.fsmpi.misc.Cart;
+import de.fsmpi.model.user.Cart;
 import de.fsmpi.model.user.User;
 import de.fsmpi.service.CartService;
 import de.fsmpi.service.NotificationService;
