@@ -31,39 +31,33 @@
 									  class="hidden-xs hidden-sm"></span>
 							</a>
 						</td>
-						<a
-						   ></a>
 					</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
-		<!--<div class="row">-->
-			<!--<div class="col-xs-12-->
-						<!--col-sm-8 col-sm-offset-2-->
-						<!--col-md-6 col-md-offset-3-->
-						<!--col-lg-4 col-lg-offset-4">-->
-				<!--<form th:action="@{/options/add}" class="imp-form">-->
-					<!--<div class="input-group">-->
-						<!--<label for="opt-type" class="input-group-addon">**type**</label>-->
-						<!--<select name="optionClassName"-->
-								<!--id="opt-type"-->
-								<!--data-live-search="true"-->
-								<!--class="selectpicker form-control">-->
-							<!--<option th:each="val : ${optionClasses}"-->
-									<!--th:text="${val}"-->
-									<!--th:value="${val}"></option>-->
-						<!--</select>-->
-						<!--<div class="input-group-btn">-->
-							<!--<button type="submit"-->
-									<!--class="btn btn-primary">-->
-								<!--**create option**-->
-							<!--</button>-->
-						<!--</div>-->
-					<!--</div>-->
-				<!--</form>-->
-			<!--</div>-->
-		<!--</div>-->
+		<div class="row">
+			<hr/>
+			<div class="col-xs-12
+						col-sm-10 col-sm-offset-1
+						col-md-8 col-md-offset-2
+						col-lg-6 col-lg-offset-3">
+				<h3 th:text="#{option.import_title}"></h3>
+				<form th:action="@{/documents/import}" method="post">
+					<div class="input-group">
+						<label for="import-path"
+							   class="input-group-addon">
+							<span th:text="#{option.import_path}"></span>
+							<span class="glyphicon glyphicon-folder-open"></span>
+						</label>
+						<input type="text" id="import-path" class="form-control" name="dir"/>
+					</div>
+					<button type="submit"
+							class="btn btn-primary"
+							th:text="#{common.import}"></button>
+				</form>
+			</div>
+		</div>
 	</div>
 </main>
 </body>

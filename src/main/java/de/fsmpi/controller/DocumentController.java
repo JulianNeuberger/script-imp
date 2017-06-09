@@ -68,7 +68,7 @@ public class DocumentController extends BaseController {
 		model.addAttribute("document", document);
 		model.addAttribute("backLink", backLink);
 
-		return "/pages/user/show-single-document";
+		return "pages/user/show-single-document";
 	}
 
 	@ResponseBody
@@ -161,7 +161,7 @@ public class DocumentController extends BaseController {
 		return "redirect:/documents/add";
 	}
 
-	@RequestMapping(path = "/import")
+	@RequestMapping(path = "/import", method = RequestMethod.POST)
 	public String autoImport(@RequestParam("dir") String baseDir) {
 		this.autoImporter.importFromDirectory(new File(baseDir));
 		return "redirect:/documents/show";
