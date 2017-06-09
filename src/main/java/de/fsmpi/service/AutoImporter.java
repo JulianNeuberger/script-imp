@@ -126,7 +126,7 @@ public class AutoImporter {
 							document.setLecture(lecture);
 							document.setExamForm(examForm);
 							document.setExamType(examType);
-							document.setFilePath(copyMoveFile(documentFile, document));
+							document.setFilePath(documentFile.getAbsolutePath());
 							this.documentRepository.save(document);
 
 							++filesFound;
