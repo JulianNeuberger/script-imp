@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -16,6 +17,9 @@ import java.util.HashSet;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final NotificationService notificationService;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
@@ -37,11 +41,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(User user) {
-        // FIXME: encrypt passes
         if(user.getUserAuthorities() == null) {
             user.setUserAuthorities(new HashSet<>());
         }
         user.getUserAuthorities().add(UserAuthority.VIEW_DOCUMENTS);
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
         user = this.userRepository.save(user);
 		notificationService.createNotification(user, "notification.user_profile", "/user/show/self");
 		return user;
