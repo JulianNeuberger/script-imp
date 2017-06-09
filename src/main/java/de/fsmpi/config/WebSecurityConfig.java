@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
@@ -19,15 +18,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private final UserServiceImpl userService;
-	private final PasswordEncoder passwordEncoder;
 	private final DaoAuthenticationProvider authenticationProvider;
 
 	@Autowired
 	public WebSecurityConfig(UserServiceImpl userService,
-							 PasswordEncoder passwordEncoder,
 							 DaoAuthenticationProvider authenticationProvider) {
 		this.userService = userService;
-		this.passwordEncoder = passwordEncoder;
 		this.authenticationProvider = authenticationProvider;
 	}
 
