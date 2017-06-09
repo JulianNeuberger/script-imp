@@ -1,32 +1,56 @@
 <!doctype html>
 <html layout:decorator="layouts/single"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.thymeleaf.org">
 <head>
 </head>
 <body>
 <main layout:fragment="content" class="container">
-    <div class="row">
-        <div class="col-xs-12" th:if="${!approval}"
-             th:text="#{print.success}">
-        </div>
-        <div class="col-xs-12" th:if="${approval}"
-             th:text="#{print.needs_approval}">
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12" th:text="${'**Bitte ' + cost + ' zahlen**'}">
-            Cost
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <a th:href="@{/}"
-               th:text="#{common.back.start}"
-               class="btn btn-primary btn-block">
-            </a>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-xs-12
+                    col-sm-offset-3 col-sm-6
+                    col-md-offset-3 col-md-6
+                    col-lg-offset-4 col-lg-4
+					text-center">
+			<span class="glyphicon glyphicon-ok"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12
+                    col-sm-offset-3 col-sm-6
+                    col-md-offset-3 col-md-6
+                    col-lg-offset-4 col-lg-4
+					text-center">
+            <span th:if="${approval}"
+				  th:text="#{print.success}"></span>
+			<span th:if="${!approval}"
+				  th:text="#{print.needs_approval}"></span>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12
+                    col-sm-offset-3 col-sm-6
+                    col-md-offset-3 col-md-6
+                    col-lg-offset-4 col-lg-4
+					text-center"
+			 th:text="#{print.cost(${cost})}">
+			Cost
+		</div>
+	</div>
+	<div class="row">
+		<hr/>
+		<div class="col-xs-12
+                    col-sm-offset-3 col-sm-6
+                    col-md-offset-3 col-md-6
+                    col-lg-offset-4 col-lg-4
+					text-center">
+			<a th:href="@{/}"
+			   class="btn btn-primary btn-block">
+				<span class="glyphicon glyphicon-chevron-left"></span>
+				<span th:text="#{common.back.start}"></span>
+			</a>
+		</div>
+	</div>
 </main>
 </body>
 </html>

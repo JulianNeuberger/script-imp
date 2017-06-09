@@ -75,4 +75,24 @@ public class PrintJob {
 	public boolean needsApproval() {
 		return this.status == PrintStatus.APPROVAL;
 	}
+
+	@Transient
+	public int getNumberOfPages() {
+		int totalPages = 0;
+		if(documents == null) {
+			return 0;
+		}
+		for (PrintJobDocument document : documents) {
+			Integer pages = document.getDocument().getPages();
+			if(pages == null) {
+				pages = 0;
+			}
+			Integer count = document.getCount();
+			if(count == null) {
+				count = 0;
+			}
+			totalPages += pages * count;
+		}
+		return totalPages;
+	}
 }

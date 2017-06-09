@@ -33,14 +33,14 @@ public class LecturerController extends BaseController {
     @RequestMapping(path = "/show")
     public String show(Model model) {
         model.addAttribute("lecturers", lecturerRepository.findAll());
-        return "/pages/user/show-lecturers";
+        return "pages/user/show-lecturers";
     }
 
     @RequestMapping(path = "/edit", method = RequestMethod.GET)
     public String edit(Model model, @RequestParam("id") Long id) {
         Lecturer lecturer = this.lecturerRepository.findOne(id);
         model.addAttribute(lecturer);
-        return "/pages/admin/edit-lecturer";
+        return "pages/admin/edit-lecturer";
     }
 
     @RequestMapping(path = "/add", method = RequestMethod.GET)
@@ -48,7 +48,7 @@ public class LecturerController extends BaseController {
         Lecturer lecturer = new Lecturer();
         model.addAttribute("lecturer", lecturer);
 
-        return "/pages/admin/edit-lecturer";
+        return "pages/admin/edit-lecturer";
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)

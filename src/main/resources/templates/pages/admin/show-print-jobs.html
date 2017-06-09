@@ -50,7 +50,8 @@
     </div>
     <table class="table table-striped">
         <thead><tr>
-            <th th:text="#{document.name}">**document name**</th>
+            <th th:text="#{print_job.number_documents}">**number of documents**</th>
+            <th th:text="#{print_job.number_pages}">**number of pages**</th>
             <th th:text="#{print_job.date}">**date**</th>
             <th th:text="#{print_job.status}">**status**</th>
             <th th:text="#{print_job.cost}">**cost**</th>
@@ -59,6 +60,7 @@
         <tbody>
             <tr th:each="job : ${printJobsPage.content}">
                 <td th:text="${job.documents?.size()}">**No documents**</td>
+                <td th:text="${job.getNumberOfPages()}">**No documents**</td>
                 <td th:text="${job.createdDate}">**No document date**</td>
                 <td th:text="${job.status}">**no status**</td>
                 <td th:text="${pricingService.getPriceForPrintJob(job)}"></td>

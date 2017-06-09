@@ -1,5 +1,6 @@
 package de.fsmpi.model.document;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Type;
@@ -7,6 +8,7 @@ import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.File;
+import java.io.IOException;
 
 @Entity
 @Table
@@ -107,7 +109,13 @@ public class Document {
 	}
 
 	public Integer getPages() {
-		return pages;
+		// FIXME: What are the benefits of persisting this in DB?
+		try {
+			PDDocument pdfDoc = PDDocument.load(getFileHandle());
+			return pdfDoc.getNumberOfPages();
+		} catch (IOException e) {
+			return null;
+		}
 	}
 
 	public void setPages(Integer pages) {

@@ -38,21 +38,21 @@ public class LectureController extends BaseController {
     @RequestMapping(path = "/show")
     public String show(Model model) {
         model.addAttribute("lectures", lectureRepository.findAll());
-        return "/pages/user/show-lectures";
+        return "pages/user/show-lectures";
     }
 
     @RequestMapping(path = "/edit", method = RequestMethod.GET)
     public String edit(Model model, @RequestParam("id") Long id) {
         Lecture lecture = this.lectureRepository.findOne(id);
         model.addAttribute(lecture);
-        return "/pages/admin/edit-lecture";
+        return "pages/admin/edit-lecture";
     }
 
     @RequestMapping(path = "/add", method = RequestMethod.GET)
     public String add(Model model) {
         Lecture lecture = new Lecture();
         model.addAttribute("lecture", lecture);
-        return "/pages/admin/edit-lecture";
+        return "pages/admin/edit-lecture";
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)

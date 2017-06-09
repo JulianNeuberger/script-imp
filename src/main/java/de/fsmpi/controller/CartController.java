@@ -71,7 +71,7 @@ public class CartController extends BaseController {
     public String show(Model model) {
     	Cart cart = getCartOfUserOrCreate();
         model.addAttribute("documents", cart.getDocuments());
-        return "/pages/user/show-cart";
+        return "pages/user/show-cart";
     }
 
     @RequestMapping("/item/copies")

@@ -16,48 +16,54 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserServiceImpl userService;
+	private final UserServiceImpl userService;
 
-    @Autowired
-    public WebSecurityConfig(UserServiceImpl userService) {
-        this.userService = userService;
-    }
+	@Autowired
+	public WebSecurityConfig(UserServiceImpl userService) {
+		this.userService = userService;
+	}
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
-        web
-            .ignoring()
-                .antMatchers("/js/**")
-                .antMatchers("/fonts/**")
-                .antMatchers("/css/**");
-    }
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		super.configure(web);
+		web
+				.ignoring()
+				.antMatchers("/js/**")
+				.antMatchers("/fonts/**")
+				.antMatchers("/css/**");
+	}
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .headers() //FIXME: use frame options
-                .httpStrictTransportSecurity()
-                .disable()
-            .and()
-                .authorizeRequests()
-                    .antMatchers("/", "/home", "/user/register").permitAll()
-                    .antMatchers("/options/*").hasAuthority(UserAuthority.EDIT_OPTIONS.getAuthority())
-                    .antMatchers("/print/show/jobs").hasAuthority(UserAuthority.DO_PRINT.getAuthority())
-                    .anyRequest().authenticated()
-            .and()
-                .formLogin()
-                .loginPage("/user/login")
-                .permitAll()
-            .and()
-                .logout()
-                .logoutSuccessUrl("/user/login")
-                .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                .permitAll();
-    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+				.headers() //FIXME: use frame options
+				.httpStrictTransportSecurity()
+				.disable()
+				.and()
+				.authorizeRequests()
+				.antMatchers("/", "/home", "/user/register").permitAll()
+				.antMatchers("/options/*").hasAuthority(UserAuthority.EDIT_OPTIONS.getAuthority())
+				.antMatchers("/print/show/jobs").hasAuthority(UserAuthority.DO_PRINT.getAuthority())
+				.anyRequest().authenticated()
+				.and()
+				.formLogin()
+				.loginPage("/user/login")
+				.permitAll()
+				.and()
+				.logout()
+				.logoutSuccessUrl("/user/login")
+				.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+				.permitAll();
+	}
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(this.userService);
-    }
+//	@Override
+//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//		super.configure(auth);
+//		auth.
+//	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(this.userService);
+	}
 }

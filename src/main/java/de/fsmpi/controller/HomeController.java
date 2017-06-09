@@ -17,6 +17,6 @@ public class HomeController extends BaseController {
     @RequestMapping("/")
     public String home(Model model) {
         model.addAttribute("name", "Test");
-        return "/pages/user/home";
+        return "pages/user/home";
     }
 }

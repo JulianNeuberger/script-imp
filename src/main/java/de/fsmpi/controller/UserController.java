@@ -25,7 +25,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(path = "/user/login", method = RequestMethod.GET)
     public String login() {
-        return "/pages/user/login";
+        return "pages/user/login";
     }
 
     @RequestMapping(path = "/user/show/self")
@@ -36,7 +36,7 @@ public class UserController extends BaseController {
 		} else {
 			// FIXME: die...
 		}
-		return "/pages/user/show-user";
+		return "pages/user/show-user";
 	}
 
 	@RequestMapping(path = "/user/save/self", method = RequestMethod.POST)
@@ -57,12 +57,12 @@ public class UserController extends BaseController {
 		} else {
 			// FIXME: die horribly
 		}
-		return "/pages/user/show-user";
+		return "pages/user/show-user";
 	}
 
 	@RequestMapping(path = "/user/register", method = RequestMethod.GET)
 	public String register() {
-        return "/pages/user/register";
+        return "pages/user/register";
     }
 
     @RequestMapping(path = "/user/register", method = RequestMethod.POST)

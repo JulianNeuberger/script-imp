@@ -16,6 +16,6 @@ public class ErrorController extends BaseController {
 //    @ExceptionHandler(Exception.class)
     public String error(Map<String, Object> model, Exception e) {
         model.put("exceptionMessage", e);
-        return "/pages/user/error.ftl";
+        return "pages/user/error.ftl";
     }
 }

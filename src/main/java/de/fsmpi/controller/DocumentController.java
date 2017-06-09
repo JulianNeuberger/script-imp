@@ -132,19 +132,19 @@ public class DocumentController extends BaseController {
 		model.addAttribute("pageLink", request.getRequestURL().toString() + "?" + request.getQueryString());
 
 		LOGGER.info(MessageFormat.format("Total exec time for showDocuments is {0}ms", System.currentTimeMillis() - start));
-		return "/pages/user/show-documents";
+		return "pages/user/show-documents";
 	}
 
 	@RequestMapping(path = "/add", method = RequestMethod.GET)
 	public String addDocument(Model model) {
 		model.addAttribute("document", new Document());
-		return "/pages/admin/edit-document";
+		return "pages/admin/edit-document";
 	}
 
 	@RequestMapping(path = "/edit", method = RequestMethod.GET)
 	public String editDocument(Model model, @RequestParam Long id) {
 		model.addAttribute("document", this.documentRepository.findOne(id));
-		return "/pages/admin/edit-document";
+		return "pages/admin/edit-document";
 	}
 
 	@RequestMapping(path = "/save", method = RequestMethod.POST)

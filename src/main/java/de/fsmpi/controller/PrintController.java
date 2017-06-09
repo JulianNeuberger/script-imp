@@ -50,7 +50,9 @@ public class PrintController extends BaseController {
 		cartService.clearCart(cart);
 		model.addAttribute("cost", cost.doubleValue());
 		model.addAttribute("approval", printJobsNeedApproval);
-		return "/pages/user/print-success";
+		// we need to update the count of documents in cart, since they were added with the now out of date cart
+		model.addAttribute("cartItemCount", 0);
+		return "pages/user/print-success";
 	}
 
 	@RequestMapping("/job")
@@ -59,7 +61,7 @@ public class PrintController extends BaseController {
 		PrintJob job = this.printingService.doPrintJob(jobId);
 		model.addAttribute("cost", pricingService.getPriceForPrintJob(job));
 		model.addAttribute("approval", job.getStatus() == PrintStatus.APPROVAL);
-		return "/pages/user/print-success";
+		return "pages/user/print-success";
 	}
 
 	@RequestMapping("/show/jobs")
@@ -81,7 +83,7 @@ public class PrintController extends BaseController {
 		model.addAttribute("status", status);
 		model.addAttribute("pricingService", pricingService);
 
-		return "/pages/admin/show-print-jobs";
+		return "pages/admin/show-print-jobs";
 	}
 
 	@RequestMapping(path = "/job/approve", params = "deny")

@@ -33,7 +33,7 @@ public class NotificationController extends BaseController {
 		Set<Notification> notifications = this.notificationService.getOldNotificationsForUser(getCurrentUserOrNull());
 		model.addAttribute("oldNotifications", notifications);
 		model.addAttribute("hasOldNotifications", notifications.size() > 0);
-        return "/pages/user/show-notifications";
+        return "pages/user/show-notifications";
     }
 
     @RequestMapping(path = "/read")

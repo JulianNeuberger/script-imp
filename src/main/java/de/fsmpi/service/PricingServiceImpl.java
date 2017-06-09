@@ -1,14 +1,11 @@
 package de.fsmpi.service;
 
-import de.fsmpi.model.document.Document;
 import de.fsmpi.model.option.Option;
 import de.fsmpi.model.print.PrintJob;
-import de.fsmpi.model.print.PrintJobDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 
 /**
  * Created by Julian on 12.12.2016.
@@ -25,21 +22,11 @@ public class PricingServiceImpl implements PricingService {
 
 	@Override
 	public BigDecimal getPriceForPrintJob(PrintJob printJob) {
-		Integer totalPages = 0;
+		Integer totalPages = printJob.getNumberOfPages();
 		BigDecimal pricePerPage = new BigDecimal(optionService.getOptionByName(Option.COST_PER_PAGE).getValue());
-		Collection<PrintJobDocument> documents = printJob.getDocuments();
-		for (PrintJobDocument document : documents) {
-			Integer pages = document.getDocument().getPages();
-			if(pages == null) {
-				pages = 0;
-			}
-			Integer count = document.getCount();
-			if(count == null) {
-				count = 0;
-			}
-			totalPages += pages * count;
-		}
-		return pricePerPage.multiply(new BigDecimal(totalPages));
+		return pricePerPage.
+				multiply(new BigDecimal(totalPages)).
+				divide(new BigDecimal(100), 2, BigDecimal.ROUND_HALF_UP);
 	}
 
 	@Override

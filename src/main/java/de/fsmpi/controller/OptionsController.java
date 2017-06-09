@@ -32,7 +32,7 @@ public class OptionsController extends BaseController {
     public String show(Model model) {
         model.addAttribute("options", this.optionRepository.findAll());
 
-        return "/pages/admin/edit-options";
+        return "pages/admin/edit-options";
     }
 
     @RequestMapping(path = "/save", method = RequestMethod.POST)
@@ -56,7 +56,7 @@ public class OptionsController extends BaseController {
     public String edit(Model model, @RequestParam String name) {
         model.addAttribute("option", this.optionRepository.findOne(name));
 
-        return "/pages/admin/edit-single-option";
+        return "pages/admin/edit-single-option";
     }
 
     @RequestMapping("/add")
@@ -72,7 +72,7 @@ public class OptionsController extends BaseController {
             // TODO: wtf happened here? maybe inform the user,
             // TODO: although every option should have an empty constructor, since it's an entity...
         }
-        return "/pages/admin/edit-single-option";
+        return "pages/admin/edit-single-option";
     }
 
     @ModelAttribute("optionClasses")
