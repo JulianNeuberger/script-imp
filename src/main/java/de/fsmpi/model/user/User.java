@@ -156,6 +156,11 @@ public class User implements UserDetails {
 	}
 
 	@Transient
+	public boolean canViewDocuments() {
+		return can(UserAuthority.VIEW_DOCUMENTS);
+	}
+
+	@Transient
 	public boolean canManageOptions() {
     	return can(UserAuthority.EDIT_OPTIONS);
 	}
@@ -163,6 +168,11 @@ public class User implements UserDetails {
 	@Transient
 	public boolean canManageUsers() {
     	return can(UserAuthority.MANAGE_USERS);
+	}
+
+	@Transient
+	public boolean canManageDocuments() {
+		return can(UserAuthority.MANAGE_DOCUMENTS);
 	}
 
 	@Transient

@@ -2,20 +2,29 @@ package de.fsmpi.controller;
 
 import de.fsmpi.service.CartService;
 import de.fsmpi.service.NotificationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Map;
+@Controller
+public class ErrorController extends BaseController implements org.springframework.boot.autoconfigure.web.ErrorController {
 
-//@Controller
-public class ErrorController extends BaseController {
+	private static final String ERROR_PATH = "/error";
 
-    public ErrorController(NotificationService notificationService,
-                           CartService cartService) {
-        super(notificationService, cartService);
-    }
+	@Autowired
+	public ErrorController(NotificationService notificationService,
+						   CartService cartService) {
+		super(notificationService, cartService);
+	}
 
-//    @ExceptionHandler(Exception.class)
-    public String error(Map<String, Object> model, Exception e) {
-        model.put("exceptionMessage", e);
-        return "pages/user/error.ftl";
-    }
+	@RequestMapping(ERROR_PATH)
+	public String error(Model model) {
+		return "redirect:/";
+	}
+
+	@Override
+	public String getErrorPath() {
+		return ERROR_PATH;
+	}
 }

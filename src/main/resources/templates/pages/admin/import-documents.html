@@ -1,0 +1,34 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+	<div class="row imp-spacing-bottom">
+		<div class="row">
+			<div class="col-xs-12
+						col-sm-10 col-sm-offset-1
+						col-md-8 col-md-offset-2
+						col-lg-6 col-lg-offset-3">
+				<h3 th:text="#{option.import_title}"></h3>
+				<form th:action="@{/documents/import}" method="post" class="form-inline">
+					<div class="input-group">
+						<label for="import-path"
+							   class="input-group-addon">
+							<span th:text="#{option.import_path}"></span>
+							<span class="glyphicon glyphicon-folder-open"></span>
+						</label>
+						<input type="text" id="import-path" class="form-control" name="dir"/>
+					</div>
+					<button type="submit"
+							class="btn btn-primary"
+							th:text="#{common.import}"></button>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+</body>
+</html>

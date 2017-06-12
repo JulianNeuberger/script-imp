@@ -1,0 +1,70 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+	<div class="row imp-spacing-bottom">
+		<div class="col-xs-12
+                    col-sm-10 col-sm-offset-1
+					col-md-8 col-md-offset-2
+					col-lg-6 col-lg-offset-3">
+			<table class="table table-striped">
+				<thead>
+				<tr>
+					<th th:text="#{user.username}"></th>
+					<th th:text="#{user.first_name}"></th>
+					<th th:text="#{user.last_name}"></th>
+					<th th:text="#{user.authorities}"></th>
+					<th th:text="#{common.possible_actions_short}" class="text-right"></th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr th:each="curUser : ${users}">
+					<td th:text="${curUser.username}"></td>
+					<td th:text="${curUser.firstName}"></td>
+					<td th:text="${curUser.lastName}"></td>
+					<td>
+						<span th:if="${curUser.canViewDocuments()}" class="text-info imp-tooltip-container">
+							<span class="imp-tooltip" th:text="#{authority.view_documents}"></span>
+							<span class="glyphicon glyphicon-file"></span>
+						</span>
+						<span th:if="${curUser.canViewPDF()}" class="text-info imp-tooltip-container">
+							<span class="imp-tooltip" th:text="#{authority.view_pdf}"></span>
+							<span class="glyphicon glyphicon-eye-open"></span>
+						</span>
+						<span th:if="${curUser.canRequestPrint()}" class="text-info imp-tooltip-container">
+							<span class="imp-tooltip" th:text="#{authority.request_print}"></span>
+							<span class="glyphicon glyphicon-question-sign"></span>
+						</span>
+
+						<span th:if="${curUser.canManageOptions()}" class="text-primary imp-tooltip-container">
+							<span class="imp-tooltip" th:text="#{authority.manage_options}"></span>
+							<span class="glyphicon glyphicon-cog"></span>
+						</span>
+						<span th:if="${curUser.canManageUsers()}" class="text-primary imp-tooltip-container">
+							<span class="imp-tooltip" th:text="#{authority.manage_users}"></span>
+							<span class="glyphicon glyphicon-user"></span>
+						</span>
+						<span th:if="${curUser.canExecutePrint()}" class="text-primary imp-tooltip-container">
+							<span class="imp-tooltip" th:text="#{authority.execute_print}"></span>
+							<span class="glyphicon glyphicon-print"></span>
+						</span>
+					</td>
+					<td>
+						<a th:href="@{/user/edit(username=${curUser.username})}"
+						   class="btn btn-primary">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</main>
+</body>
+</html>

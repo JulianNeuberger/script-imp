@@ -155,6 +155,11 @@ public class DocumentController extends BaseController {
 		return "redirect:/documents/add";
 	}
 
+	@RequestMapping(path = "/import", method = RequestMethod.GET)
+	public String viewImport() {
+		return "pages/admin/import-documents";
+	}
+
 	@RequestMapping(path = "/import", method = RequestMethod.POST)
 	public String autoImport(@RequestParam("dir") String baseDir) {
 		this.autoImporter.importFromDirectory(new File(baseDir));

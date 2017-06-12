@@ -79,6 +79,13 @@ public class UserController extends BaseController {
 		return "redirect:/user/edit?username=" + username;
 	}
 
+	@RequestMapping(path = "/user/show/all", method = RequestMethod.GET)
+	public String showAll(Model model) {
+		Iterable<User> users = userService.getAll();
+		model.addAttribute("users", users);
+		return "pages/admin/show-users";
+	}
+
 	@RequestMapping(path = "/user/register", method = RequestMethod.GET)
 	public String register() {
 		return "pages/user/register";

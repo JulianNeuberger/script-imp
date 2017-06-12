@@ -127,3 +127,54 @@ body.imp-homepage {
   background-position: center;
   background-attachment: fixed;
 }
+
+.imp-tooltip-container {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+
+  .imp-tooltip {
+	@tool-tip-width: 150px;
+	@tool-tip-border-width: 1px;
+	@tool-tip-x-padding: 1px;
+	@tool-tip-y-padding: 0px;
+	@tooltip-arrow-size: 5px;
+	position: absolute;
+	text-align: center;
+	width: @tool-tip-width;
+	left: -@tool-tip-width/2;
+	top: calc(~"100%" - @tool-tip-y-padding - @tooltip-arrow-size);
+	margin-left: 50%;
+
+	background-color: black;
+
+	border: solid @tool-tip-border-width black;
+	border-radius: 4px;
+	padding: @tool-tip-y-padding @tool-tip-x-padding;
+
+	z-index: 1;
+	pointer-events: none;
+
+	opacity: 0;
+	transition: opacity .1s ease-out;
+
+	&:after {
+	  display: block;
+	  content: '';
+	  position: absolute;
+	  top: -@tooltip-arrow-size*2 - @tool-tip-border-width;
+	  left: 50%;
+	  margin-left: -@tooltip-arrow-size/2;
+	  border: solid @tooltip-arrow-size transparent;
+	  border-bottom: solid @tooltip-arrow-size black;
+	}
+  }
+}
+
+.imp-tooltip-container:hover {
+  .imp-tooltip {
+	display: block;
+	opacity: 1;
+	transition: opacity .1s ease-out;
+  }
+}
