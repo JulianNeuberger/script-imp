@@ -110,6 +110,11 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
+    @Override
+    public void deleteForUser(User user) {
+        notificationRepository.delete(this.getNotificationsForUser(user));
+    }
+
     private void createHelper(Notification notification, String message, String target) {
         notification.setMessage(message);
         notification.setTarget(target);

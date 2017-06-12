@@ -58,4 +58,9 @@ public class PrintJobDocumentServiceImpl implements PrintJobDocumentService {
 		printJobDocument.setCount(copyCount);
 		return printJobDocumentRepository.save(printJobDocument);
 	}
+
+	@Override
+	public void removeAll(Iterable<PrintJobDocument> printJobDocuments) {
+		printJobDocumentRepository.delete(printJobDocuments);
+	}
 }

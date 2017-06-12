@@ -20,4 +20,6 @@ public interface CartService {
 	User assignNewCartToUser(User user);
 
 	Cart clearCart(Cart cart);
+
+	void deleteCartForUser(User user);
 }

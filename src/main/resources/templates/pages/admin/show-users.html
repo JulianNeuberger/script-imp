@@ -8,9 +8,9 @@
 <main layout:fragment="content" class="container">
 	<div class="row imp-spacing-bottom">
 		<div class="col-xs-12
-                    col-sm-10 col-sm-offset-1
-					col-md-8 col-md-offset-2
-					col-lg-6 col-lg-offset-3">
+                    col-sm-12
+					col-md-10 col-md-offset-1
+					col-lg-8 col-lg-offset-2">
 			<table class="table table-striped">
 				<thead>
 				<tr>
@@ -59,6 +59,12 @@
 						   class="btn btn-primary">
 							<span class="glyphicon glyphicon-edit"></span>
 						</a>
+						<form th:action="@{/user/delete}" method="post" class="form-inline">
+							<input type="hidden" name="username" th:value="${curUser.username}"/>
+							<button type="submit" class="btn btn-danger">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+						</form>
 					</td>
 				</tr>
 				</tbody>

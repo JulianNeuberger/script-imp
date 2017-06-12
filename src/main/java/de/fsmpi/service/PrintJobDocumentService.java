@@ -18,4 +18,6 @@ public interface PrintJobDocumentService {
 	PrintJobDocument findOne(Long id);
 
 	PrintJobDocument updateCopyCount(PrintJobDocument printJobDocument, int copyCount);
+
+	void removeAll(Iterable<PrintJobDocument> printJobDocuments);
 }

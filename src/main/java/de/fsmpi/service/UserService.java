@@ -20,5 +20,11 @@ public interface UserService extends UserDetailsService {
 
 	User updateAuthorities(String userName, Set<UserAuthority> authorities);
 
+	void deleteOne(String username);
+
 	boolean currentUserAllowedToPrint();
+
+	void disable(User user);
+
+	void enable(User user);
 }

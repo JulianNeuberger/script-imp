@@ -17,17 +17,23 @@ import java.util.Set;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final CartService cartService;
+    private final PrintJobDocumentService printJobDocumentService;
     private final NotificationService notificationService;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
-						   NotificationService notificationService) {
+						   CartService cartService,
+						   PrintJobDocumentService printJobDocumentService,
+						   NotificationService notificationService,
+						   PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.notificationService = notificationService;
-    }
+		this.cartService = cartService;
+		this.printJobDocumentService = printJobDocumentService;
+		this.notificationService = notificationService;
+		this.passwordEncoder = passwordEncoder;
+	}
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -74,6 +80,7 @@ public class UserServiceImpl implements UserService {
     		user.setLastName(lastName);
 		}
 		if(email.length() > 0) {
+    		//FIXME: Add mail
 		}
 		return userRepository.save(user);
 	}
@@ -89,8 +96,30 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void deleteOne(String username) {
+    	User user = userRepository.findOne(username);
+    	if(user != null) {
+			cartService.deleteCartForUser(user);
+		}
+		notificationService.deleteForUser(user);
+		userRepository.delete(user);
+	}
+
+	@Override
 	public boolean currentUserAllowedToPrint() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return principal instanceof User && ((User) principal).getAuthorities().contains(UserAuthority.DO_PRINT);
+	}
+
+	@Override
+	public void disable(User user) {
+		user.setEnabled(false);
+		userRepository.save(user);
+	}
+
+	@Override
+	public void enable(User user) {
+		user.setEnabled(true);
+		userRepository.save(user);
 	}
 }

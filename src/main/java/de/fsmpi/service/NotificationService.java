@@ -31,4 +31,6 @@ public interface NotificationService {
     void mark(Notification notification, boolean read);
 
     void markAll(User user, boolean read);
+
+    void deleteForUser(User user);
 }

@@ -14,12 +14,15 @@ public class CartServiceImpl implements CartService {
 
 	private final CartRepository cartRepository;
 	private final UserRepository userRepository;
+	private final PrintJobDocumentService printJobDocumentService;
 
 	@Autowired
 	public CartServiceImpl(CartRepository cartRepository,
-						   UserRepository userRepository) {
+						   UserRepository userRepository,
+						   PrintJobDocumentService printJobDocumentService) {
 		this.cartRepository = cartRepository;
 		this.userRepository = userRepository;
+		this.printJobDocumentService = printJobDocumentService;
 	}
 
 	@Override
@@ -74,5 +77,16 @@ public class CartServiceImpl implements CartService {
 	public Cart clearCart(Cart cart) {
 		cart.clear();
 		return this.cartRepository.save(cart);
+	}
+
+	@Override
+	public void deleteCartForUser(User user) {
+		Cart cart = user.getCart();
+		if(cart != null) {
+			printJobDocumentService.removeAll(cart.getDocuments());
+			cartRepository.delete(cart);
+			user.setCart(null);
+		}
+		userRepository.save(user);
 	}
 }

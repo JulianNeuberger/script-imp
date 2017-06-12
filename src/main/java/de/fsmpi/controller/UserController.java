@@ -76,7 +76,13 @@ public class UserController extends BaseController {
 	public String saveOne(@RequestParam String username,
 						  @RequestParam Set<UserAuthority> authorities) {
 		userService.updateAuthorities(username, authorities);
-		return "redirect:/user/edit?username=" + username;
+		return "redirect:/user/show/all";
+	}
+
+	@RequestMapping(path = "/user/delete", method = RequestMethod.POST)
+	public String delete(@RequestParam String username) {
+		userService.deleteOne(username);
+		return "redirect:/user/show/all";
 	}
 
 	@RequestMapping(path = "/user/show/all", method = RequestMethod.GET)
