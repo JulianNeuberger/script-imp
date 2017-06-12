@@ -43,16 +43,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.headers() //FIXME: use frame options
 				.httpStrictTransportSecurity()
 				.disable()
+
 				.and()
 				.authorizeRequests()
-				.antMatchers("/", "/home", "/user/register").permitAll()
-				.antMatchers("/options/*").hasAuthority(UserAuthority.EDIT_OPTIONS.getAuthority())
-				.antMatchers("/print/show/jobs").hasAuthority(UserAuthority.DO_PRINT.getAuthority())
-				.anyRequest().authenticated()
+				.antMatchers("/", "/home", "/user/register")
+				.permitAll()
+
+				.antMatchers("/options/*")
+				.hasAuthority(UserAuthority.EDIT_OPTIONS.getAuthority())
+
+				.antMatchers("/user/edit/")
+				.hasAuthority(UserAuthority.MANAGE_USERS.getAuthority())
+
+				.antMatchers("/user/edit/self")
+				.authenticated()
+
+				.antMatchers("/print/show/jobs")
+				.hasAuthority(UserAuthority.DO_PRINT.getAuthority())
+
+				.antMatchers("/documents/show")
+				.hasAnyAuthority(UserAuthority.VIEW_DOCUMENTS.getAuthority())
+
+				.antMatchers("/documents/show/single", "/documents/data")
+				.hasAnyAuthority(UserAuthority.VIEW_PDF.getAuthority())
+
+				.antMatchers("/documents/add", "/documents/edit", "/documents/save", "/documents/import")
+				.hasAnyAuthority(UserAuthority.VIEW_PDF.getAuthority())
+
+				.anyRequest()
+				.authenticated()
+
 				.and()
 				.formLogin()
 				.loginPage("/user/login")
 				.permitAll()
+
 				.and()
 				.logout()
 				.logoutSuccessUrl("/user/login")

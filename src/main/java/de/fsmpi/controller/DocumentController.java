@@ -59,7 +59,7 @@ public class DocumentController extends BaseController {
 		this.autoImporter = autoImporter;
 	}
 
-	@RequestMapping(path = "/show", params = {"id"})
+	@RequestMapping(path = "/show/single", params = {"id"})
 	public String showSingleDocument(Model model,
 									 @RequestParam(name = "id") Long documentId,
 									 @RequestParam(name = "backLink") String backLink) {
@@ -73,13 +73,7 @@ public class DocumentController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(path = "/data", params = {"id"}, method = RequestMethod.GET, produces = "application/pdf")
-	public FileSystemResource getDocumentData(HttpServletResponse response,
-											  @RequestParam(name = "id") Long documentId) {
-		User user = getCurrentUserOrNull();
-		if (user == null || !user.getAuthorities().contains(UserAuthority.VIEW_PDF)) {
-			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			return null;
-		}
+	public FileSystemResource getDocumentData(@RequestParam(name = "id") Long documentId) {
 		return new FileSystemResource(documentRepository.findOne(documentId).getFilePath());
 	}
 

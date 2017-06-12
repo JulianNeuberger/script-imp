@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -39,7 +40,17 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
+	@Override
+	public User getById(String userName) {
+		return userRepository.findOne(userName);
+	}
+
+	@Override
+	public Iterable<User> getAll() {
+		return userRepository.findAll();
+	}
+
+	@Override
     public User register(User user) {
         if(user.getUserAuthorities() == null) {
             user.setUserAuthorities(new HashSet<>());
@@ -47,14 +58,14 @@ public class UserServiceImpl implements UserService {
         user.getUserAuthorities().add(UserAuthority.VIEW_DOCUMENTS);
         user.setPassword(this.passwordEncoder.encode(user.getPassword()));
         user = this.userRepository.save(user);
-		notificationService.createNotification(user, "notification.user_profile", "/user/show/self");
+		notificationService.createNotification(user, "notification.user_profile", "/user/edit/self");
 		return user;
 	}
 
     @Override
 	public User updateProfile(User user, String password, String firstName, String lastName, String email) {
     	if(password.length() > 0) {
-			user.setPassword(password);
+			user.setPassword(passwordEncoder.encode(password));
     	}
     	if(firstName.length() > 0) {
     		user.setFirstName(firstName);
@@ -65,6 +76,16 @@ public class UserServiceImpl implements UserService {
 		if(email.length() > 0) {
 		}
 		return userRepository.save(user);
+	}
+
+	@Override
+	public User updateAuthorities(String userName, Set<UserAuthority> authorities) {
+    	User user = userRepository.findOne(userName);
+    	if(user != null) {
+			user.setUserAuthorities(authorities);
+			return userRepository.save(user);
+		}
+		return null;
 	}
 
 	@Override

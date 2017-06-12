@@ -145,13 +145,33 @@ public class User implements UserDetails {
         return this.userAuthorities != null && this.getUserAuthorities().contains(UserAuthority.EDIT_OPTIONS);
     }
 
-    @Transient
-    public boolean canPrint() {
-        return userAuthorities != null && userAuthorities.contains(UserAuthority.DO_PRINT);
-    }
+	@Transient
+	public boolean can(UserAuthority authority) {
+    	return userAuthorities != null && userAuthorities.contains(authority);
+	}
 
-    @Transient
-	public boolean canViewPDFs() {
-    	return userAuthorities != null && userAuthorities.contains(UserAuthority.VIEW_PDF);
+	@Transient
+	public boolean canViewPDF() {
+    	return can(UserAuthority.VIEW_PDF);
+	}
+
+	@Transient
+	public boolean canManageOptions() {
+    	return can(UserAuthority.EDIT_OPTIONS);
+	}
+
+	@Transient
+	public boolean canManageUsers() {
+    	return can(UserAuthority.MANAGE_USERS);
+	}
+
+	@Transient
+	public boolean canExecutePrint() {
+    	return can(UserAuthority.DO_PRINT);
+	}
+
+	@Transient
+	public boolean canRequestPrint() {
+    	return can(UserAuthority.REQUEST_PRINT);
 	}
 }

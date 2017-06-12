@@ -1,0 +1,51 @@
+<!doctype html>
+<html layout:decorator="layouts/single"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<main layout:fragment="content" class="container">
+	<div class="row imp-spacing-bottom">
+		<div class="col-xs-12
+                    col-sm-8 col-sm-offset-2
+					col-md-6 col-md-offset-3
+					col-lg-4 col-lg-offset-4">
+			<h4>
+				<span class="glyphicon glyphicon-wrench"></span>
+				<span th:text="#{admin.option_management}"></span>
+			</h4>
+		</div>
+	</div>
+	<hr/>
+	<div class="row imp-spacing-bottom">
+		<div class="col-xs-12
+                    col-sm-8 col-sm-offset-2
+					col-md-6 col-md-offset-3
+					col-lg-4 col-lg-offset-4">
+			<h4>
+				<a>
+					<span class="glyphicon glyphicon-user"></span>
+					<span th:text="#{admin.user_management}"></span>
+				</a>
+			</h4>
+		</div>
+	</div>
+	<hr/>
+	<div class="row imp-spacing-bottom">
+		<div class="col-xs-12
+                    col-sm-8 col-sm-offset-2
+					col-md-6 col-md-offset-3
+					col-lg-4 col-lg-offset-4">
+			<h4>
+				<a>
+					<span class="glyphicon glyphicon-file"></span>
+					<span th:text="#{admin.document_management}"></span>
+				</a>
+			</h4>
+		</div>
+	</div>
+	<hr/>
+</main>
+</body>
+</html>

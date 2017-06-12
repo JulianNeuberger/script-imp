@@ -32,7 +32,7 @@
 				</a>
 			</li>
 			<li th:if="${user ne null}">
-				<a th:href="@{/user/show/self}">
+				<a th:href="@{/user/edit/self}">
 					<span class="glyphicon glyphicon-user"></span>
 				</a>
 			</li>
@@ -45,8 +45,8 @@
 				</a>
 			</li>
 			<li th:if="${user?.admin}">
-				<a th:href="@{/options/show}">
-					<span class="glyphicon glyphicon-wrench"></span>
+				<a th:href="@{/admin/overview}">
+					<span class="glyphicon glyphicon-cog"></span>
 				</a>
 			</li>
 			<li th:if="${user eq null}">
